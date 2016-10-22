@@ -1,0 +1,47 @@
+<html>
+	<body>
+<script type="text/javascript">
+var jsver = 1.0;
+</script>
+<script language="Javascript1.1">
+jsver = 1.1;
+</script>
+<script language="Javascript1.2">
+jsver = 1.2;
+</script>å
+<script language="Javascript1.3">
+jsver = 1.3;
+</script>
+<script language="Javascript1.4">
+jsver = 1.4;
+</script>
+<script language="Javascript1.5">
+jsver = 1.5;
+</script>
+<script language="Javascript1.6">
+jsver = 1.6;
+</script>
+<script type="text/javascript">
+//document.write('<p><b>Javascript version ' + jsver
+//+ ' supported<\/b><\/p>');
+</script>
+        <script src="HeatMapData.js"></script>
+        <script src="src/HeatMapEngine.js"></script>
+        <div id=ControlPanel style="position:absolute;left:20px;top:20px;">
+        <input id=ApplyLogScale type="checkbox">Apply Log Scale</input>
+        <input id=ReverseDisplay type="checkbox">Reverse Layout</input>
+        <select id=DataSets size="4">
+        </select>
+        <select id="SortDirection" size="4">
+            <option value="asc">asc</option>
+            <option value="desc">desc</option>
+            <option value="none">none</option>
+        </select>
+        <button  onclick="showNext();">Show Next</button>
+        <button  onclick="showAll();">Show All</button>
+        </div>
+        <div id=DataPanel style="position:absolute;left:20px;top:150px;">
+        </div>
+        <script src="src/HeatMapRunner.js"></script>
+	</body>
+</html>
