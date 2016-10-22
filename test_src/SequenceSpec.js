@@ -1,5 +1,11 @@
+var newSequence = (function getNewSequence() {
+    var heatMapMembers = {};
+    heatMapEngine_ns(heatMapMembers);
+    var newSequence = heatMapMembers.newSequence;
+    return newSequence;
+})();
+
 describe( "newSequence", function() {
-    var Sequence = heatMapEngine_ns.xprivate.newSequence;
 
     it("should return correct head values", function() {
         var seq = newSequence( [{area:20}, {area:30}, {area:40}, {area:50}], 0);

@@ -1,4 +1,4 @@
-var heatMapEngine_ns = function() {
+var heatMapEngine_ns = function heatMapEngine_ns() {
     var xprivate = {};     // strictly for use of the test runner
     var xpublic = {};
 
@@ -26,14 +26,14 @@ var heatMapEngine_ns = function() {
             return tot;
         };
 
-        var sc = SquarenessCalculator();
+        var sc = newSquarenessCalculator();
         /// adds tiles to the committedTiles array from heatMap data
         /// @param nuMTiles - the number of tiles to add
         /// @param remainingRect provides coordinates for the tiles
         /// @param side - the side along which the tiles are aligned.
         /// @param length - the length of the side along which the tiles are alinged.
         /// #param committedTiles - array into which tiles are added.
-        var commitTiles = xpublic.xprivate.commitTiles = function (heatMapData
+        var commitTiles = xpublic.xprivate.commitTiles = function commitTiles(heatMapData
           , numTiles, remainingRect, side, length, committedTiles)
         {
             var totalArea = calcTotalArea(heatMapData, numTiles);
@@ -203,7 +203,7 @@ var heatMapEngine_ns = function() {
         return xpublic;
     };
 
-    var SquarenessCalculator = xprivate.SquarenessCalculator = function() {
+    var newSquarenessCalculator = xprivate.newSquarenessCalculator = function getSquarenessCalculator() {
         var xpublic = {};
         var xprivate = {};
 
@@ -212,12 +212,12 @@ var heatMapEngine_ns = function() {
         /// totals add up to length
         var squareness = xpublic.squareness = function squareness(areas, extraArea, length) {
             assert( typeof areas !== 'undefined' && areas !== null
-              , "SquarenessCalculator.squareness: requires an non-empty array of areas" );
+              , "newSquarenessCalculator.squareness: requires an non-empty array of areas" );
             assert( typeof areas.push !== 'undefined'
-               , "SquarenessCalculator.squareness: requires an array of area");
+               , "newSquarenessCalculator.squareness: requires an array of area");
             assert( extraArea !== 'undefined' && extraArea != null
-              , "SquarenessCalculator.squareness: requires an extra area of type {area:nn}.  It can can have an area of 0" );
-            assert( typeof length === 'number', "SquarenessCalculator.squareness: requires a length");
+              , "newSquarenessCalculator.squareness: requires an extra area of type {area:nn}.  It can can have an area of 0" );
+            assert( typeof length === 'number', "newSquarenessCalculator.squareness: requires a length");
             var totalArea = function() {
                 var tot = 0;
                 for ( var ii = 0; ii < areas.length; ii++ ) {
@@ -269,39 +269,25 @@ var heatMapEngine_ns = function() {
         xpublic.tileCountForSide = function tileCountForSide(seqAreas, length ) {
             return squarestTileCount(seqAreas, length );
         };
-        exposeForUnitTests(this.length, arguments, xpublic, xprivate);
+        exposeMembersForUnitTests(this.length, arguments, xpublic, xprivate);
         return xpublic;
     };
-    var exposeForUnitTests = function(numNamedArgs, args, xpublic, xprivate) {
-        var copyMembers = function copyMembers(members, source) {
-            for ( var member in source ) {
-                if (source.hasOwnProperty(member)) {
-                    members[member] = source[member];
-                }
-            }
-        };
-        if (args.length > numNamedArgs) { // an extra arg has been passed to obtain the set of private functions
-            var argsArray;
-            argsArray = Array.prototype.slice.call(args);
-            var members = argsArray[numNamedArgs];
-            members.value = {};
-            copyMembers(members.value, xpublic);
-            copyMembers(members.value, xprivate);
-        }
-    };
-    /// this has sole charge of rendering the constructed layout to the browser page
+    /// this has sole charge of rendering the constructed layout in the browser
+    /// renderLayout takes a set of "tiles" which have positions and dimensions expressed
+    /// in "real-world" units.  These positions and dimensions are scaled by the Renderer
+    /// to fit the canvas passed to newRenderer.
     var newRenderer = xpublic.newRenderer = function newRenderer(canvasRect) {
         assert( typeof(canvasRect.left) === 'number' && typeof(canvasRect.top) === 'number'
           && typeof(canvasRect.width) === 'number' && typeof(canvasRect.height) === 'number'
           ,"canvasRect passed to renderer constructor must contain left, top, width, height");
         assert( canvasRect.width > 0 && canvasRect.height > 0 );
 
-        var publicState = {};
+        var spublic = {};
 
-        var renderTile = function(tile, left, top, width, height ) {
+        function renderTile(tile, left, top, width, height ) {
            writeTileHTML(left, top, width, height, 0 );
         };
-        var writeTileHTML = function( left, top, width, height, backgroundColor ) {
+        function writeTileHTML( left, top, width, height, backgroundColor ) {
             debugPrint( "left="+left+" top="+top+" width="+width+" height=" +height);
 
             var divTag = document.createElement("div");
@@ -311,19 +297,19 @@ var heatMapEngine_ns = function() {
             divTag.style.width = width+"px";
             divTag.style.height = height+"px";
             divTag.style.border = "2px solid rgb(153,0,153)";
-            divTag.style.backgroundColor = "white";
+            divTag.style.backgroundColor = "blue";
             divTag.innerHTML = "xx";
             var divDataPanel = document.getElementById("DataPanel");
             divDataPanel.appendChild(divTag);
         };
-        var calcTotalArea = function(tiles) {
+        function calcTotalArea(tiles) {
             var tot = 0;
             for ( var ii = 0; ii < tiles.length; ii++ ) {
                 tot += tiles[ii].get_area();
             }
             return tot;
         };
-        publicState.renderLayout = function( tiles, reverse ) {
+        spublic.renderLayout = function renderLayout( tiles, reverse ) {
             try {
 
                 if ( typeof(reverse) === 'undefined' ) {
@@ -345,7 +331,28 @@ var heatMapEngine_ns = function() {
                 alert( "renderLayout:" + ex );
             }
         };
-        return publicState;
+        return spublic;
+    };
+    /// usage:
+    /// var heatmpaMembers = {value:null};
+    /// heatmap_ns(heatMapmembers);
+    /// var tile = heatmapMembers.newTile();  etc., etc.
+    var exposeMembersForUnitTests = function(numNamedArgs, args, xpublic, xprivate) {
+        var copyMembers = function copyMembers(members, source) {
+            for ( var member in source ) {
+                if (source.hasOwnProperty(member)) {
+                    members[member] = source[member];
+                }
+            }
+        };
+        if (args.length > numNamedArgs) { // an extra arg has been passed to obtain the set of private functions
+            var argsArray;
+            argsArray = Array.prototype.slice.call(args);
+            var members = argsArray[numNamedArgs];
+            members.value = {};
+            copyMembers(members, xpublic);
+            copyMembers(members, xprivate);
+        }
     };
 
     var debugPrint = function(str) {
@@ -356,5 +363,6 @@ var heatMapEngine_ns = function() {
             throw { name: "assertionFailure", message: message };
         }
     };
+    exposeMembersForUnitTests(this.length, arguments, xpublic, xprivate);
     return xpublic;
-}();
+};

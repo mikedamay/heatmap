@@ -1,6 +1,19 @@
+var newTile = (function getNewTile() {
+    var heatMapMembers = {};
+    heatMapEngine_ns(heatMapMembers);
+    var newTile = heatMapMembers.newTile;
+    return newTile;
+})();
+var newRectangle = (function getNewRectangle() {
+    var heatMapMembers = {};
+    heatMapEngine_ns(heatMapMembers);
+    var newRectangle = heatMapMembers.newRectangle;
+    return newRectangle;
+})();
+
 describe ("newTile", function() {
-   var Tile = heatMapEngine_ns.xprivate.newTile;
-   it( "should return its position and dimensions", function() {
+    it( "should return its position and dimensions", function() {
+
        var tile = newTile(10, 20, 30, 40 );
        expect(tile.get_left()).toEqual(10);
        expect(tile.get_top()).toEqual(20);
@@ -13,7 +26,6 @@ describe ("newTile", function() {
     });
 });
 describe ("newRectangle", function() {
-   var Rectangle = heatMapEngine_ns.xprivate.newRectangle;
    it( "should return its position and dimensions", function() {
        var rect = newRectangle(10, 20, 30, 40 );
        expect(rect.get_left()).toEqual(10);

@@ -29,7 +29,8 @@ var showNext = function() {
         if ( lstDataSets.options.selectedIndex === -1 ) {
             lstDataSets.value = lstDataSets.options.item(0).value;
         }
-        heatMapEngine_ns.drawHeatMap(DataChoices[lstDataSets.value].slice(0,counter), gatherParamsFromPage());
+        var engine = heatMapEngine_ns();
+        engine.drawHeatMap(DataChoices[lstDataSets.value].slice(0,counter), gatherParamsFromPage());
     }
     catch (ex) {
         alert(ex);
@@ -46,7 +47,8 @@ try
     if ( lstDataSets.options.selectedIndex === -1 ) {
         lstDataSets.value = lstDataSets.options.item(0).value;
     }
-    heatMapEngine_ns.drawHeatMap(DataChoices[lstDataSets.value], gatherParamsFromPage());
+    var engine = heatMapEngine_ns();
+    engine.drawHeatMap(DataChoices[lstDataSets.value], gatherParamsFromPage());
 }
 catch (ex) {
     alert(ex);

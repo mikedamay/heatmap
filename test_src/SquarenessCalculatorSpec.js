@@ -1,11 +1,16 @@
-describe( "SquarenessCalculator", function() {
-    var SquarenessCalculator = heatMapEngine_ns.xprivate.SquarenessCalculator;
-    var Sequence = heatMapEngine_ns.xprivate.newSequence;
+var newSquarenessCalculator = (function getNewSquarenessCalculator() {
+    var heatMapMembers = {};
+    heatMapEngine_ns(heatMapMembers);
+    var newSquarenessCalculator = heatMapMembers.newSquarenessCalculator;
+    return newSquarenessCalculator;
+})();
+
+describe( "newSquarenessCalculator", function() {
 
     it ( "should be able to calculate squareness for a given array of areas", function() {
         var squarenessHolder = {value:null}
-        SquarenessCalculator(squarenessHolder);
-        var sc = squarenessHolder.value;
+        newSquarenessCalculator(squarenessHolder);
+        var sc = squarenessHolder;
         // var squareness = sc.xprivate.squareness;
         var s1 = sc.squareness(
           [{area:200}
@@ -19,8 +24,8 @@ describe( "SquarenessCalculator", function() {
     });
     it ( "should be able to calculate squareness for a given array of areas with an extra area thrown in", function() {
         var squarenessHolder = {value:null}
-        SquarenessCalculator(squarenessHolder);
-        var sc = squarenessHolder.value;
+        newSquarenessCalculator(squarenessHolder);
+        var sc = squarenessHolder;
         // var squareness = sc.xprivate.squareness;
         var s1 = sc.squareness(
           [{area:200}
@@ -35,8 +40,8 @@ describe( "SquarenessCalculator", function() {
     it ( "should include all the areas when the length will provoke an exact square"
       , function() {
         var squarenessHolder = {value:null}
-        SquarenessCalculator(squarenessHolder);
-        var sc = squarenessHolder.value;
+        newSquarenessCalculator(squarenessHolder);
+        var sc = squarenessHolder;
         // var squareness = sc.xprivate.squareness;
         var numAreas = sc.squarestTileCount(
             newSequence(
@@ -54,8 +59,8 @@ describe( "SquarenessCalculator", function() {
     it ( "should include all areas when the length is very large"
       , function() {
         var squarenessHolder = {value:null}
-        SquarenessCalculator(squarenessHolder);
-        var sc = squarenessHolder.value;
+        newSquarenessCalculator(squarenessHolder);
+        var sc = squarenessHolder;
         // var squareness = sc.xprivate.squareness;
         var numAreas = sc.squarestTileCount(
             newSequence(
@@ -73,8 +78,8 @@ describe( "SquarenessCalculator", function() {
     it ( "should be able to determine the number of areas constituting the squarest configuration for a given length"
       , function() {
         var squarenessHolder = {value:null}
-        SquarenessCalculator(squarenessHolder);
-        var sc = squarenessHolder.value;
+        newSquarenessCalculator(squarenessHolder);
+        var sc = squarenessHolder;
         // var squareness = sc.xprivate.squareness;
         var numAreas = sc.squarestTileCount(
             newSequence(

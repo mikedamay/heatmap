@@ -1,8 +1,18 @@
+var newLayout = (function getNewLayout() {
+    var heatMapMembers = {};
+    heatMapEngine_ns(heatMapMembers);
+    var newLayout = heatMapMembers.newLayout;
+    return newLayout;
+})();
+var newRectangle = (function getNewRectangle() {
+    var heatMapMembers = {};
+    heatMapEngine_ns(heatMapMembers);
+    var newRectangle = heatMapMembers.newRectangle;
+    return newRectangle;
+})();
 describe( "newLayout", function() {
-    var Layout = heatMapEngine_ns.newLayout;
-    var Rectangle = heatMapEngine_ns.xprivate.newRectangle;
     it ( "should be able to calculate the total area of new tiles", function() {
-        var lo = Layout([{area:100}]);
+        var lo = newLayout([{area:100}]);
         var commitTiles = lo.xprivate.commitTiles;
         var committedTiles = [];
         var totalArea = commitTiles(
@@ -16,7 +26,7 @@ describe( "newLayout", function() {
         expect( totalArea ).toEqual(100);
     });
     it ( "should be able to calculate the position and dimensions of new tiles placed vertically", function() {
-        var lo = Layout([{area:100}]);
+        var lo = newLayout([{area:100}]);
         var commitTiles = lo.xprivate.commitTiles;
         var committedTiles = [];
         var totalArea = commitTiles(
@@ -28,7 +38,7 @@ describe( "newLayout", function() {
         expect( committedTiles[2].get_left() ).toEqual(20);
     });
     it ( "should be able to calculate the position and dimensions of new tiles placed horizontally", function() {
-        var lo = Layout();
+        var lo = newLayout();
         var commitTiles = lo.xprivate.commitTiles;
         var committedTiles = [];
         var totalArea = commitTiles(
@@ -40,7 +50,7 @@ describe( "newLayout", function() {
         expect( committedTiles[2].get_top() ).toEqual(30);
     });
     it ( "should be able to create tiles for the heatmap data", function() {
-        var lo = Layout();
+        var lo = newLayout();
         var tiles = lo.layoutTiles(
           [
           {area:4}
