@@ -335,9 +335,12 @@ var heatMapEngine_ns = function heatMapEngine_ns() {
         return spublic;
     };
     /// usage:
-    /// var heatmpaMembers = {value:null};
-    /// heatmap_ns(heatMapmembers);
+    /// var heatmpaMembers = {};
+    /// heatmapEngine_ns(heatMapmembers);
     /// var tile = heatmapMembers.newTile();  etc., etc.
+    ///
+    /// newLaout(layoutMembers);
+    /// layoutMembers.commitTiles etc.
     function exposeMembersForUnitTests(numNamedArgs, args, xpublic, xprivate) {
         var copyMembers = function copyMembers(members, source) {
             for ( var member in source ) {
