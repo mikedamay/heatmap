@@ -13,7 +13,7 @@ var heatMapEngine_ns = function heatMapEngine_ns() {
 
     var newLayout = xpublic.newLayout = function newLayout() {
         var xpublic = {};
-        xpublic.xprivate = {};
+        var xprivate = {};
 
         var calcTotalArea = function(heatMapData, numTiles) {
             if ( typeof numTiles !== 'number' ) {
@@ -33,7 +33,7 @@ var heatMapEngine_ns = function heatMapEngine_ns() {
         /// @param side - the side along which the tiles are aligned.
         /// @param length - the length of the side along which the tiles are alinged.
         /// #param committedTiles - array into which tiles are added.
-        var commitTiles = xpublic.xprivate.commitTiles = function commitTiles(heatMapData
+        var commitTiles = xprivate.commitTiles = function commitTiles(heatMapData
           , numTiles, remainingRect, side, length, committedTiles)
         {
             var totalArea = calcTotalArea(heatMapData, numTiles);
@@ -78,7 +78,7 @@ var heatMapEngine_ns = function heatMapEngine_ns() {
             layoutRectangle(heatMapData, rect, committedTiles );
             return committedTiles;
         };
-        var layoutRectangle = xpublic.xprivate.layoutRectangle
+        var layoutRectangle
           = function layoutRectangle(heatMapData, remainingRect, committedTiles ) {
             assert( typeof heatMapData === 'object' && typeof heatMapData.push === 'function'
               , "Layout.layouTiles: heatMapData must be an array of areas");
@@ -99,7 +99,8 @@ var heatMapEngine_ns = function heatMapEngine_ns() {
                 layoutRectangle(heatMapData.slice(numTiles), remainingRect, committedTiles );
             }
         };
-        return xpublic;
+        exposeMembersForUnitTests(this.length, arguments, xpublic, xprivate);
+        return xpublic;     // Layout
     };
 
     /// tile contains the data to draw an appropriate rectangle on the heatmap
@@ -337,7 +338,7 @@ var heatMapEngine_ns = function heatMapEngine_ns() {
     /// var heatmpaMembers = {value:null};
     /// heatmap_ns(heatMapmembers);
     /// var tile = heatmapMembers.newTile();  etc., etc.
-    var exposeMembersForUnitTests = function(numNamedArgs, args, xpublic, xprivate) {
+    function exposeMembersForUnitTests(numNamedArgs, args, xpublic, xprivate) {
         var copyMembers = function copyMembers(members, source) {
             for ( var member in source ) {
                 if (source.hasOwnProperty(member)) {

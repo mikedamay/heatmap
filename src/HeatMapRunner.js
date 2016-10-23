@@ -24,7 +24,7 @@ var showNext = function() {
     try
     {
         if ( lstDataSets.options.length === 0 ) {
-            alert( "unable to draw heatmap.  No data available.  You need a file called HeatMapData.js");
+            alert( "unable to draw heatmap.  No data available.  You need a file called HeatMapTestData.js");
         }
         if ( lstDataSets.options.selectedIndex === -1 ) {
             lstDataSets.value = lstDataSets.options.item(0).value;
@@ -42,7 +42,7 @@ var showAll = function() {
 try
 {
     if ( lstDataSets.options.length === 0 ) {
-        alert( "unable to draw heatmap.  No data available.  You need a file called HeatMapData.js");
+        alert( "unable to draw heatmap.  No data available.  You need a file called HeatMapTestData.js");
     }
     if ( lstDataSets.options.selectedIndex === -1 ) {
         lstDataSets.value = lstDataSets.options.item(0).value;

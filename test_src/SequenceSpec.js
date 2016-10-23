@@ -5,7 +5,7 @@ var newSequence = (function getNewSequence() {
     return newSequence;
 })();
 
-describe( "newSequence", function() {
+describe( "Sequence", function() {
 
     it("should return correct head values", function() {
         var seq = newSequence( [{area:20}, {area:30}, {area:40}, {area:50}], 0);

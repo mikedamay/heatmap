@@ -10,10 +10,11 @@ var newRectangle = (function getNewRectangle() {
     var newRectangle = heatMapMembers.newRectangle;
     return newRectangle;
 })();
-describe( "newLayout", function() {
+describe( "Layout", function() {
+    var privateMembers = {};
+    newLayout(privateMembers);
+    var commitTiles = privateMembers.commitTiles;
     it ( "should be able to calculate the total area of new tiles", function() {
-        var lo = newLayout([{area:100}]);
-        var commitTiles = lo.xprivate.commitTiles;
         var committedTiles = [];
         var totalArea = commitTiles(
           [{area:100}], 1, newRectangle(0,0,50,50),'height', 50, committedTiles );
@@ -27,7 +28,6 @@ describe( "newLayout", function() {
     });
     it ( "should be able to calculate the position and dimensions of new tiles placed vertically", function() {
         var lo = newLayout([{area:100}]);
-        var commitTiles = lo.xprivate.commitTiles;
         var committedTiles = [];
         var totalArea = commitTiles(
           [{area:9}, {area:9}, {area:9}], 3, newRectangle(20,30,25,9),'height', 9, committedTiles );
@@ -39,7 +39,6 @@ describe( "newLayout", function() {
     });
     it ( "should be able to calculate the position and dimensions of new tiles placed horizontally", function() {
         var lo = newLayout();
-        var commitTiles = lo.xprivate.commitTiles;
         var committedTiles = [];
         var totalArea = commitTiles(
           [{area:9}, {area:9}, {area:9}], 3, newRectangle(20,30,9,25),'width', 9, committedTiles );

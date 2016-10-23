@@ -11,7 +11,7 @@ var newRectangle = (function getNewRectangle() {
     return newRectangle;
 })();
 
-describe ("newTile", function() {
+describe ("Tile", function() {
     it( "should return its position and dimensions", function() {
 
        var tile = newTile(10, 20, 30, 40 );
@@ -25,7 +25,7 @@ describe ("newTile", function() {
         expect( tile.get_area()).toEqual(5.5*5.5);
     });
 });
-describe ("newRectangle", function() {
+describe ("Rectangle", function() {
    it( "should return its position and dimensions", function() {
        var rect = newRectangle(10, 20, 30, 40 );
        expect(rect.get_left()).toEqual(10);
