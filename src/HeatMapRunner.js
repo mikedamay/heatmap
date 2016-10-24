@@ -47,7 +47,7 @@ try
     if ( lstDataSets.options.selectedIndex === -1 ) {
         lstDataSets.value = lstDataSets.options.item(0).value;
     }
-    var engine = heatMapEngine_ns();
+    var engine = heatMapEngine_ns(null, {newSquarenessCalculator: heatmapEngineSingleSquareness_ns});
     engine.drawHeatMap(DataChoices[lstDataSets.value], gatherParamsFromPage());
 }
 catch (ex) {

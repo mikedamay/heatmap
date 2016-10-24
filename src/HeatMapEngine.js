@@ -2,6 +2,8 @@ var heatMapEngine_ns = function heatMapEngine_ns() {
     var xprivate = {};     // strictly for use of the test runner
     var xpublic = {};
 
+    gatherMixins(this.length, arguments, xprivate);
+
     /// main entry point
     /// usage eg.: heatMapEngine_ns.drawHeatMap( [{area:49}...], {left:20...});
     xpublic.drawHeatMap = function(heatMapData) {
@@ -232,7 +234,12 @@ var heatMapEngine_ns = function heatMapEngine_ns() {
     /// for some set of areas (numbers) and some length the calculator will determine what number of adjacent
     /// areas will provide the set of squarest looking rectangles given that the rectangles are aligned
     /// and that the length of the aligned sides is equal to the given length.
-    var newSquarenessCalculator = xprivate.newSquarenessCalculator = function getSquarenessCalculator() {
+    ///
+    /// note that the squarenessCalculator only affects the number of tiles that can be aligned
+    /// in this turn.  It does not determine which side of the unpopulated rectangle should
+    /// be used for aligning the tile(s).
+    var newSquarenessCalculator = xprivate.newSquarenessCalculator !== undefined
+      ? xprivate.newSquarenessCalculator : xprivate.newSquarenessCalculator = function getSquarenessCalculator() {
         var xpublic = {};
         var xprivate = {};
 
@@ -243,7 +250,7 @@ var heatMapEngine_ns = function heatMapEngine_ns() {
         /// @param areas - the areas that we have already decided to commit
         /// @param extraArea - an area that we might decide to add to the above if its addition improves squareness
         /// @param length - typically the shortest side of some rectangle in which we intend to place the areas
-        var squareness = xpublic.squareness = function squareness(areas, extraArea, length) {
+        var squareness = xprivate.squareness = function squareness(areas, extraArea, length) {
             assert( typeof areas !== 'undefined' && areas !== null
               , "newSquarenessCalculator.squareness: requires an non-empty array of areas" );
             assert( typeof areas.push !== 'undefined'
@@ -252,7 +259,7 @@ var heatMapEngine_ns = function heatMapEngine_ns() {
               , "newSquarenessCalculator.squareness: requires an extra area of type {area:nn}.  It can can have an area of 0" );
             assert( typeof length === 'number', "newSquarenessCalculator.squareness: requires a length");
             var numAreas = areas.length + extraArea.area > 0 ? 1 : 0 ;
-            var totalArea = function() {
+            var totalArea = function totalArea() {
                 var tot = 0;
                 for ( var ii = 0; ii < areas.length; ii++ ) {
                     tot += areas[ii].area;
@@ -279,7 +286,7 @@ var heatMapEngine_ns = function heatMapEngine_ns() {
         /// @param seqAreas sequence of type {area:nnn}
         /// @param length - this is typically either the width or the height of
         ///   a rectangle along which the tiles are placed.
-        var squarestTileCount = xpublic.squarestTileCount
+        var squarestTileCount = xprivate.squarestTileCount
           = function squarestTileCount(seqAreas, length) {
             assert( !seqAreas.isEmpty()
               , "squarenesCalculateor.squarestTileCount: cannot handle an empty sequence of tiles");
@@ -384,15 +391,35 @@ var heatMapEngine_ns = function heatMapEngine_ns() {
                 }
             }
         };
-        if (args.length > numNamedArgs) { // an extra arg has been passed to obtain the set of private functions
+        if (args.length > numNamedArgs && args[numNamedArgs] != null) { // an extra arg has been passed to obtain the set of private functions
             var argsArray;
             argsArray = Array.prototype.slice.call(args);
             var members = argsArray[numNamedArgs];
-            members.value = {};
             copyMembers(members, xpublic);
             copyMembers(members, xprivate);
         }
     };
+
+    function gatherMixins(numNamedArgs, args, xprivate) {
+        var copyMembers = function copyMembers(members, source) {
+            for ( var member in source ) {
+                if (source.hasOwnProperty(member)) {
+                    members[member] = source[member];
+                }
+            }
+        };
+        var POS_HIDDEN_PARAM = 1;
+        if (args.length > numNamedArgs + POS_HIDDEN_PARAM && args[numNamedArgs + POS_HIDDEN_PARAM] != null) {
+                                                              // two extra args have been passed
+                                                              // 1) to obtain the set of private functions
+                                                              // 2) mixins
+            var argsArray;
+            argsArray = Array.prototype.slice.call(args);
+            var members = argsArray[numNamedArgs + POS_HIDDEN_PARAM];
+            copyMembers(xprivate, members);
+        }
+
+    }
 
     var debugPrint = function(str) {
 //        document.writeln( str + "<br>" );
@@ -401,7 +428,7 @@ var heatMapEngine_ns = function heatMapEngine_ns() {
         if (!cond ) {
             throw { name: "assertionFailure", message: message };
         }
-    };
+    }
     exposeMembersForUnitTests(this.length, arguments, xpublic, xprivate);
     return xpublic;
 };
