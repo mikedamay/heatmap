@@ -10,7 +10,28 @@ var heatMapEngine_ns = function heatMapEngine_ns() {
         var rr = newRenderer({left:20,top:20,width:500,height:500});
         rr.renderLayout(tiles);
     };
+   /**
+        Layout
+        ------
+        the main entry point is layoutTiles which takes an array of areas (numbers) and lays them out (i.e.
+        sets top, left, height and width) within a square equal to the aggregate of all the areas.  The
+        laid out areas are called 'Tiles' and the total area in which they are placed is defined as a 'Rectangle'.
 
+        The routine takes each area at a time and places the 'tile' along either the full width or the full height of the
+        rectangle (or whatever part of the rectangle is still unpopulated).  The decision as to whether to
+        align with the width or the height depends on which is shorter.  Aligning on a shorter side improves the
+        look of squareness so is always selected.
+
+        In fact if we view each attempt to populate the unpopulated rectangle as a 'turn' then it should
+        be noted that an attempt is made to align multiple tiles (all along the same side of the
+        unpopulated rectangle) during each turn.  Larger and larger sets of tiles are tested as long as the
+        squareness factor continues to increase.
+
+        I'm not sure where the algorithm came from (we are talking 2010.  I may have come up with it myself
+        but it seems a bit clever for me.  The code is almost certainly mine.  I don't think it's
+        Bruis, Huizing and Van Wijk because there is no attempt to compare width-wise layout with
+        length-wise layout and it does not pick up on their succinct functional style.
+    */
     var newLayout = xpublic.newLayout = function newLayout() {
         var xpublic = {};
         var xprivate = {};
@@ -78,14 +99,17 @@ var heatMapEngine_ns = function heatMapEngine_ns() {
             layoutRectangle(heatMapData, rect, committedTiles );
             return committedTiles;
         };
-        var layoutRectangle
-          = function layoutRectangle(heatMapData, remainingRect, committedTiles ) {
+        /// remainingRect shrinks and committedTiles list grows as the routine is called recursively
+        ///
+        /// the tile to be placed will take up the complete shorter side of the available
+        /// unused rectangle (remainingRect) as this must necessarily provide the squarer geometry
+        function layoutRectangle(heatMapData, remainingRect, committedTiles ) {
             assert( typeof heatMapData === 'object' && typeof heatMapData.push === 'function'
               , "Layout.layouTiles: heatMapData must be an array of areas");
             assert( typeof committedTiles === 'object' && typeof committedTiles.push === 'function'
               , "Layout.layouTiles: committedTiles must be an array of areas");
             assert( typeof remainingRect === 'object' && typeof remainingRect.get_remainingRect === 'function'
-              , "Layout.layouTiles: remainingRect must be a newRectangle");
+              , "Layout.layoutTiles: remainingRect must be a Rectangle");
 
             var side = remainingRect.shortestSide();
             var length = side === 'width' ? remainingRect.get_width() : remainingRect.get_height();
@@ -134,7 +158,7 @@ var heatMapEngine_ns = function heatMapEngine_ns() {
         return xpublic;
     };
 
-    // newRectangle extends Tile (adding get_remainingRect() and shrtestSide()
+    // newRectangle extends Tile (adding get_remainingRect() and shortestSide()
     var newRectangle = xprivate.newRectangle = function newRectangle(left, top, width, height) {
         assert( width > 0 && height > 0, "cannot handle a rectangle with zero area or an anti-rectangle");
         var xpublic = newTile(left, top, width, height);
@@ -175,6 +199,7 @@ var heatMapEngine_ns = function heatMapEngine_ns() {
 
 
     /// utility class that converts an array to a lisp style sequence with head and tail etc.
+    /// the sequence is backed by an unchanging array
     var newSequence = xprivate.newSequence = function newSequence(arr, pos)
     {
         if ( typeof pos === 'undefined') {
@@ -204,6 +229,9 @@ var heatMapEngine_ns = function heatMapEngine_ns() {
         return xpublic;
     };
 
+    /// for some set of areas (numbers) and some length the calculator will determine what number of adjacent
+    /// areas will provide the set of squarest looking rectangles given that the rectangles are aligned
+    /// and that the length of the aligned sides is equal to the given length.
     var newSquarenessCalculator = xprivate.newSquarenessCalculator = function getSquarenessCalculator() {
         var xpublic = {};
         var xprivate = {};
@@ -211,6 +239,10 @@ var heatMapEngine_ns = function heatMapEngine_ns() {
         /// for a set of areas plus an optional extra area this calculates
         /// the aggregate squareness factor given that all areas have to have one side whose
         /// totals add up to length
+        /// @return the ratio of two adjacent sides of the rectangle such that the ration is >= 1 (squareness factor)
+        /// @param areas - the areas that we have already decided to commit
+        /// @param extraArea - an area that we might decide to add to the above if its addition improves squareness
+        /// @param length - typically the shortest side of some rectangle in which we intend to place the areas
         var squareness = xpublic.squareness = function squareness(areas, extraArea, length) {
             assert( typeof areas !== 'undefined' && areas !== null
               , "newSquarenessCalculator.squareness: requires an non-empty array of areas" );
@@ -219,6 +251,7 @@ var heatMapEngine_ns = function heatMapEngine_ns() {
             assert( extraArea !== 'undefined' && extraArea != null
               , "newSquarenessCalculator.squareness: requires an extra area of type {area:nn}.  It can can have an area of 0" );
             assert( typeof length === 'number', "newSquarenessCalculator.squareness: requires a length");
+            var numAreas = areas.length + extraArea.area > 0 ? 1 : 0 ;
             var totalArea = function() {
                 var tot = 0;
                 for ( var ii = 0; ii < areas.length; ii++ ) {
@@ -237,35 +270,37 @@ var heatMapEngine_ns = function heatMapEngine_ns() {
                 width = extraArea.area / height;
                 sq += (Math.max( height / width, width / height ));
             }
-            return sq;
+            assert( sq >= numAreas);
+            return sq / numAreas;
         };
         /// returns the optimal number of sequential tiles in the sequence
-        /// which provide the squarest tiles for the given length
+        /// which provide the squarest tiles for the given length.
+        /// i.e. in a 'turn' we add the number of tiles which creates the greatest squareness factor
         /// @param seqAreas sequence of type {area:nnn}
         /// @param length - this is typically either the width or the height of
         ///   a rectangle along which the tiles are placed.
         var squarestTileCount = xpublic.squarestTileCount
-          = function(seqAreas, length) {
+          = function squarestTileCount(seqAreas, length) {
             assert( !seqAreas.isEmpty()
               , "squarenesCalculateor.squarestTileCount: cannot handle an empty sequence of tiles");
             assert( typeof seqAreas.head().area === 'number'
               , "the tile sequence must contain raw objects containing an area property");
-            var doSquarestTileCount = function doSquarestTileCount(seqAreasPart, length, areasPart) {
-                if (seqAreasPart.isEmpty())  {
-                    return areasPart.length;
+            /// areasPart shrinks and areasToCommit grows as this function is executed recursively
+            function doSquarestTileCount(areasPart, length, areasToCommit) {
+                if (areasPart.isEmpty())  {
+                    return areasToCommit.length;    // all areas in heapMapdata have been committed except these
+                                                    // last few (in areasTocommit)
                 }
-                if ( squareness(areasPart, seqAreas.head(), length) <= squareness(areasPart, {area:0}, length)) {
-                    areasPart.push(seqAreasPart.head());
-                    return doSquarestTileCount(seqAreasPart.tail(), length, areasPart );
+                if ( squareness(areasToCommit, areasPart.head(), length) <= squareness(areasToCommit, {area:0}, length)) {
+                    areasToCommit.push(areasPart.head());
+                    return doSquarestTileCount(areasPart.tail(), length, areasToCommit );
                 }
-                else
+                else    // squareness won't improve by adding another area
                 {
-                    return areasPart.length;
+                    return areasToCommit.length;
                 }
             };
-            var areas = [seqAreas.head()];
-            var areaCount = doSquarestTileCount( seqAreas.tail(), length, areas );
-            return areaCount;
+            return doSquarestTileCount( seqAreas.tail(), length, [seqAreas.head()] );
         };
         xpublic.tileCountForSide = function tileCountForSide(seqAreas, length ) {
             return squarestTileCount(seqAreas, length );
