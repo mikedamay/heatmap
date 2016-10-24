@@ -30,7 +30,7 @@ var heatMapEngine_ns = function heatMapEngine_ns() {
         squareness factor continues to increase.
 
         I'm not sure where the algorithm came from (we are talking 2010.  I may have come up with it myself
-        but it seems a bit clever for me.  The code is almost certainly mine.  I don't think it's
+        but it seems a bit clever for me.  The code is almost certainly mine.  I don't think the algo's
         Bruis, Huizing and Van Wijk because there is no attempt to compare width-wise layout with
         length-wise layout and it does not pick up on their succinct functional style.
     */

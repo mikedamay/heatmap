@@ -8,4 +8,4 @@ var heatmapEngineSingleSquareness_ns = function heatmapEngineSingleSquareness_ns
         return 1;
     };
     return xpublic
-}
+};
