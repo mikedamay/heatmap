@@ -340,7 +340,7 @@ var heatMapEngine_ns = function heatMapEngine_ns() {
             divTag.style.width = width+"px";
             divTag.style.height = height+"px";
             divTag.style.border = "2px solid rgb(153,0,153)";
-            divTag.style.backgroundColor = "blue";
+            divTag.style.backgroundColor = "green";
             divTag.innerHTML = "xx";
             var divDataPanel = document.getElementById("DataPanel");
             divDataPanel.appendChild(divTag);
