@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quotes</title>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.6.12.min.js"></script></head>
+    <script>
+        AWS.config.update({accessKeyId: 'AKIAIGLAV4N3MQWHWZHQ', secretAccessKey: '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'});
+        AWS.config.region = 'eu-central-1';
+        var ec2 = new AWS.EC2();
+        var params = {
+            InstanceIds: [
+                'i-ef45272e'
+            ]
+        };
+        ec2.startInstances(params, function(err, data) {
+            if ( data != null ) {
+                document.write("<p>" + data.StartingInstances[0].CurrentState.Name + "</p>");
+            }
+            if ( err != null ) {
+                document.write("<p>" + err.message + "</p>");
+            }
+        });
+    </script>
+<body>
+    it is a var, var...
+</body>
+</html>
