@@ -1,14 +1,12 @@
 var newTile = (function getNewTile() {
     var heatMapMembers = {};
     heatMapEngine_ns(heatMapMembers);
-    var newTile = heatMapMembers.newTile;
-    return newTile;
+    return heatMapMembers.newTile;
 })();
 var newRectangle = (function getNewRectangle() {
     var heatMapMembers = {};
     heatMapEngine_ns(heatMapMembers);
-    var newRectangle = heatMapMembers.newRectangle;
-    return newRectangle;
+    return heatMapMembers.newRectangle;
 })();
 
 describe ("Tile", function() {
