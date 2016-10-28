@@ -14,7 +14,7 @@ create table quotes (
 --
 -- don't know how to give it a relative path otherwise csv
 -- files must be copied to <mysql>/var/quotes which complicates drop database
-load data infile '/home/mike/projects/server/aapl.csv' into table quotes fields TERMINATED BY ','
+load data infile '~/projects/server/aapl.csv' into table quotes fields TERMINATED BY ','
   (stock, time_indicator, price, volume)
   set quote_id = null;
 
