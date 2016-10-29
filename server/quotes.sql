@@ -1,3 +1,5 @@
+-- mike may, 29-Oct-2016
+-- mysql
 drop database quotes;
 create database quotes;
 
@@ -14,17 +16,16 @@ create table quotes (
 --
 -- don't know how to give it a relative path otherwise csv
 -- files must be copied to <mysql>/var/quotes which complicates drop database
-load data infile '~/projects/server/aapl.csv' into table quotes fields TERMINATED BY ','
+load data infile '~/projects/server/aapl.csv'
+  into table quotes fields TERMINATED BY ','
   (stock, time_indicator, price, volume)
   set quote_id = null;
 
 create table last_quote (
-  last_quote_id tinyint not null
-  ,last_quote int not null
-  ,primary key(last_quote_id)
+  last_quote int not null
 );
 
-insert into last_quote(last_quote_id, last_quote) values(1,0);
+insert into last_quote(last_quote_id, last_quote) values(0);
 
 drop user quoter@localhost;
 create user quoter@localhost identified by 'thisusercando_nothing!!';
