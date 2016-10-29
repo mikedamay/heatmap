@@ -351,13 +351,14 @@ var heatMapEngine_ns = function heatMapEngine_ns() {
                 tot += tiles[ii].get_area();
             }
             return tot;
-        };
+        }
         spublic.renderLayout = function renderLayout( tiles, reverse ) {
             try {
 
                 if ( typeof(reverse) === 'undefined' ) {
                     reverse = false;
                 }
+                document.getElementById("DataPanel").innerHTML = "<div/>";
                 var totalArea = calcTotalArea(tiles);
                 var xScale = canvasRect.width / Math.sqrt(totalArea);
                 var yScale = canvasRect.height / Math.sqrt(totalArea);
@@ -428,7 +429,7 @@ var heatMapEngine_ns = function heatMapEngine_ns() {
         if (!cond ) {
             throw { name: "assertionFailure", message: message };
         }
-    }
+    };
     exposeMembersForUnitTests(this.length, arguments, xpublic, xprivate);
     return xpublic;
 };
