@@ -1,25 +1,22 @@
 // mike may, 29-Oct-2016
 
-var ii = 0;
+var heatMapQuotesHandler_ns = (function() {
+    var ii = 0;
 
-requestQuote();
-
-
-function requestQuote() {
-    var tag = document.createElement("script");
-    tag.src = 'http://localhost/quotes/generate_quotes.php' + '?cachebreaker=' + ii++;
-
-    document.getElementsByTagName("head")[0].appendChild(tag);
-}
-
-function handler(payload) {
-/*
-    var test_async = document.getElementById("test_async");
-    var para = document.createElement("p");
-    para.innerHTML = "handler is active " +payload.data.price + " "+ ii; ii++;
-    test_async.appendChild(para);
-*/
-    makeHeatMap(payload.data);
     requestQuote();
-}
+
+
+    function requestQuote() {
+        var script = document.createElement("script");
+        script.src = 'http://frankfurt-rdp/quotes/generate_quotes.php' + '?cachebreaker=' + ii++;
+            // server returns "heatMapQuotesHandler_ns(...payload...);"
+        document.getElementsByTagName("head")[0].appendChild(script);
+    }
+    // payload: eg. { data: {stock: 'MSFT', price: 501.01, volume: 555444}}
+    return function handler(payload) {
+        makeHeatMap(payload.data);
+        requestQuote();
+    }
+})();
+
 

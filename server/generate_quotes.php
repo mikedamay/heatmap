@@ -52,6 +52,6 @@ WHERE quote_id =
     $rowQuote = mysql_fetch_assoc($rsQuote);
     $res = mysql_query("update last_quote set last_quote=" . $rowQuote["quote_id"]);
     sleep(getRandomDelay());
-    print "handler({ data: {" . "stock:" . "'" . $rowQuote["stock"] ."'" . ",price:" . $rowQuote["price"] . ",volume:" . $rowQuote["volume"] . "}})";
+    print "heatMapQuotesHandler_ns({ data: {" . "stock:" . "'" . $rowQuote["stock"] ."'" . ",price:" . $rowQuote["price"] . ",volume:" . $rowQuote["volume"] . "}})";
     mysql_close($conn);
 ?>

@@ -5,7 +5,7 @@
     <title>Quotes</title>
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.6.12.min.js"></script></head>
     <script>
-        AWS.config.update({access key and secret key go here});
+        AWS.config.update({aws_access_key_key: aws-access-key-id, aws_secret_key_key: aws-secret-key-id});
         AWS.config.region = 'eu-central-1';
         var ec2 = new AWS.EC2();
         var params = {
