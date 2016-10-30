@@ -27,7 +27,7 @@ $quoteQuery = "
           price,
           volume
         FROM quotes.quotes
-        WHERE quote_id =
+        WHERE quote_id = 
               CASE WHEN (SELECT last_quote
                          FROM last_quote)
                         >= (SELECT max(quote_id)
@@ -56,10 +56,16 @@ try {
         throw new Exception("failed to update last_quote. " . mysql_error($conn));
     }
     sleep(getRandomDelay());
-    print "heatMapQuotesHandler_ns({ data: {" . "stock:" . "'" . $rowQuote["stock"] . "'" . ",price:" . $rowQuote["price"] . ",volume:" . $rowQuote["volume"] . "}})";
+    $payload = "heatMapQuotesHandler_ns("
+      . json_encode(array('data' => array(
+      'stock' => $rowQuote["stock"]
+      , 'price' => (double)$rowQuote["price"]
+      , 'volume' => (int)$rowQuote["volume"]
+      ))) . ")";
+    print $payload;
     mysql_close($conn);
 }
 catch (Exception $ex) {
-    print "heatMapQuotesHandler_ns({ err: \"" . $ex->getMessage() . "\"})";
+    print "heatMapQuotesHandler_ns( " . json_encode(array('err' => $ex->getMessage())) . ")";
 }
 ?>
