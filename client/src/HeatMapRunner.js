@@ -1,6 +1,7 @@
 var counter = 1;
 
 var lstDataSets = document.getElementById("DataSets");
+
 for ( var dataSetName in DataChoices) {
     opt = document.createElement("OPTION");
     opt.text = dataSetName;

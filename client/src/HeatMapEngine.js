@@ -1,6 +1,8 @@
 var heatMapEngine_ns = function heatMapEngine_ns() {
     var xprivate = {};     // strictly for use of the test runner
     var xpublic = {};
+    var units = "rem";
+    var borderWidth = 0.2;
 
     gatherMixins(this.length, arguments, xprivate);
 
@@ -9,7 +11,18 @@ var heatMapEngine_ns = function heatMapEngine_ns() {
     xpublic.drawHeatMap = function(heatMapData) {
         var lo = newLayout();
         tiles = lo.layoutTiles(heatMapData );
-        var rr = newRenderer({left:20,top:20,width:500,height:500});
+        var renderParams = null;
+        if ( jsver === undefined || jsver >= 1.6) {
+            renderParams = {left:2,top:2,width:30,height:30}
+            units = "rem";
+            borderWidth = 0.2;
+        }
+        else {
+            renderParams = {left:20,top:20,width:500,height:500};
+            units = "px";
+            borderWidth = 2;
+        }
+        var rr = newRenderer(renderParams);
         rr.renderLayout(tiles);
     };
    /**
@@ -152,6 +165,7 @@ var heatMapEngine_ns = function heatMapEngine_ns() {
         xpublic.get_area = function get_area() {
             return width * height;
         };
+        xpublic.renderInnerTile = function renderInnerTile() {};
 //        /// if you add arbitrary properties to the tile when you creeate it
 //        /// then you can query them with this
 //        xpublic.get_property = function(propertyName) {
@@ -328,22 +342,23 @@ var heatMapEngine_ns = function heatMapEngine_ns() {
         var spublic = {};
 
         function renderTile(tile, left, top, width, height ) {
-           writeTileHTML(left, top, width, height, 0 );
+            var div = writeTileHTML(left, top, width, height, 0 );
+            tile.renderInnerTile(div);
         };
         function writeTileHTML( left, top, width, height, backgroundColor ) {
             debugPrint( "left="+left+" top="+top+" width="+width+" height=" +height);
 
             var divTag = document.createElement("div");
             divTag.style.position = "absolute";
-            divTag.style.left = left+"px";
-            divTag.style.top = top+"px";
-            divTag.style.width = width+"px";
-            divTag.style.height = height+"px";
-            divTag.style.border = "2px solid rgb(153,0,153)";
+            divTag.style.left = left+units;
+            divTag.style.top = top+units;
+            divTag.style.width = width+units;
+            divTag.style.height = height+units;
+            divTag.style.border = borderWidth + units + " solid rgb(153,0,153)";
             divTag.style.backgroundColor = "green";
-            divTag.innerHTML = "xx";
             var divDataPanel = document.getElementById("DataPanel");
             divDataPanel.appendChild(divTag);
+            return divTag;
         };
         function calcTotalArea(tiles) {
             var tot = 0;
@@ -352,17 +367,17 @@ var heatMapEngine_ns = function heatMapEngine_ns() {
             }
             return tot;
         }
-        spublic.renderLayout = function renderLayout( tiles, reverse ) {
+        spublic.renderLayout = function renderLayout( tiles, renderInnerTile) {
             try {
 
-                if ( typeof(reverse) === 'undefined' ) {
-                    reverse = false;
-                }
                 document.getElementById("DataPanel").innerHTML = "<div/>";
                 var totalArea = calcTotalArea(tiles);
                 var xScale = canvasRect.width / Math.sqrt(totalArea);
                 var yScale = canvasRect.height / Math.sqrt(totalArea);
                 for ( var ii = 0; ii < tiles.length; ii++ ) {
+                    if (renderInnerTile !== undefined ) {
+                        tiles[ii].renderInnerTile = renderInnerTile;
+                    }
                     renderTile(tiles[ii]
                       , canvasRect.left + tiles[ii].get_left() * xScale
                       , canvasRect.top + tiles[ii].get_top() * yScale

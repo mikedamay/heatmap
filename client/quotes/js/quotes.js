@@ -8,8 +8,8 @@ var heatMapQuotesHandler_ns = (function() {
 
     function requestQuote() {
         var script = document.createElement("script");
-        script.src = 'http://localhost/quotes/generate_quotes.php' + '?cachebreaker=' + ii++;
-        // script.src = 'http://frankfurt-rdp/quotes/generate_quotes.php' + '?cachebreaker=' + ii++;
+        // script.src = 'http://localhost/quotes/generate_quotes.php' + '?cachebreaker=' + ii++;
+        script.src = 'http://frankfurt-rdp/quotes/generate_quotes.php' + '?cachebreaker=' + ii++;
             // server returns "heatMapQuotesHandler_ns(...payload...);"
         document.getElementsByTagName("head")[0].appendChild(script);
     }

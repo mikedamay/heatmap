@@ -6,12 +6,16 @@
     <title>UIkit documentation</title>
     <!--<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">-->
     <!--<link rel="apple-touch-icon-precomposed" href="images/apple-touch-icon.png">-->
-    <link rel="stylesheet" href="../uikit-2.27.2/css/uikit.gradient.css">
-    <script src="../jquery/jquery-3.1.1.min.js"></script>
-    <script src="../uikit-2.27.2/js/uikit.min.js"></script>
+<!--
+    <link rel="stylesheet" href="../bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <script src="../bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+-->
     <style>
+        body {
+            padding: 30px
+        }
         #ControlPanel, #HeaderPanel {
-            width=600rem;
+            width: 600rem;
             max-width : 600rem;
         }
         #DataPanel {
@@ -19,7 +23,8 @@
             max-height : 600rem;
         }
     </style>
-</head><body>
+</head>
+<body>
 <script type="text/javascript">
         var jsver = 1.0;
 </script>
@@ -58,6 +63,9 @@
 <script>document.write('<script src="../src/advanced/mixins/SingleSquareness.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
 <script>document.write('<script src="../HeatMapTestData.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
 <script>document.write('<script src="../src/HeatMapEngine.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
+<!--<script>document.write('<script src="../src/HeatMapRunner.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>-->
+
+
 <div id="HeaderPanel" class="uk-text-center">
     <h1>Heatmap Test</h1>
 </div>
@@ -68,11 +76,11 @@
             <input id=ReverseDisplay type="checkbox">Reverse Layout</input>
             <select id=DataSets size="4">
             </select>
-            <ul id="SortDirection" size="4">
-                <li href="#"  onclick="">asc</li>
-                <li>desc</li>
-                <li>none</li>
-            </ul>
+            <select id="SortDirection" size="4">
+                <option value="asc">asc</option>
+                <option value="desc">desc</option>
+                <option value="none">none</option>
+            </select>
             <button type="button" class="uk-button uk-alert-primary " onclick="showNext();">Show Next</button>
             <button  onclick="showAll();">Show All</button>
         </div>
@@ -81,6 +89,6 @@
 </div>
 <div id=DataPanel class="uk-panel uk-panel-box uk-panel-center">
 </div>
-<script>document.write('<script src=' + Math.floor(Math.random() * 100) + '"../src/HeatMapRunner.js?dev="\><\/script>');</script>
+<script src="../src/HeatMapRunner.js?dev=19"></script>
 </body>
 </html>
