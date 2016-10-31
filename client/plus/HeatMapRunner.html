@@ -4,15 +4,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>UIkit documentation</title>
-    <!--<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">-->
-    <!--<link rel="apple-touch-icon-precomposed" href="images/apple-touch-icon.png">-->
-<!--
     <link rel="stylesheet" href="../bootstrap-3.3.7-dist/css/bootstrap.min.css">
     <script src="../bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
--->
     <style>
         body {
-            padding: 30px
+            margin: 6rem
         }
         #ControlPanel, #HeaderPanel {
             width: 600rem;
@@ -63,14 +59,11 @@
 <script>document.write('<script src="../src/advanced/mixins/SingleSquareness.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
 <script>document.write('<script src="../HeatMapTestData.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
 <script>document.write('<script src="../src/HeatMapEngine.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
-<!--<script>document.write('<script src="../src/HeatMapRunner.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>-->
 
 
-<div id="HeaderPanel" class="uk-text-center">
+<div id=ControlPanel class="col-sm-3" >
     <h1>Heatmap Test</h1>
-</div>
-<div id=ControlPanel class="uk-grid uk-grid-large-margin" >
-    <div class="uk-width-medium-1-2">
+    <div>
         <div class="uk-panel uk-panel-box">
             <input id=ApplyLogScale type="checkbox">Apply Log Scale</input>
             <input id=ReverseDisplay type="checkbox">Reverse Layout</input>
@@ -87,8 +80,9 @@
     </div>
 
 </div>
-<div id=DataPanel class="uk-panel uk-panel-box uk-panel-center">
+<div id=DataPanel class="col-sm-9">
+    xx
 </div>
-<script src="../src/HeatMapRunner.js?dev=19"></script>
+<script>document.write('<script src="../src/HeatMapRunner.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
 </body>
 </html>
