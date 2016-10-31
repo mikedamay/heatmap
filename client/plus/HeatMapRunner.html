@@ -10,13 +10,23 @@
         body {
             margin: 6rem
         }
-        #ControlPanel, #HeaderPanel {
+  /*      #ControlPanel, #HeaderPanel {
             width: 600rem;
             max-width : 600rem;
         }
         #DataPanel {
             max-width : 600rem;
             max-height : 600rem;
+        }
+*/        #LeftSide {
+            background-color: #dbe3ff;
+            height: 600px;
+        }
+
+        #RightSide {
+            background-color: #fff5d4;
+            height: 600px;
+            padding-top: 20px;
         }
     </style>
 </head>
@@ -61,28 +71,37 @@
 <script>document.write('<script src="../src/HeatMapEngine.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
 
 
-<div id=ControlPanel class="col-sm-3" >
-    <h1>Heatmap Test</h1>
-    <div>
-        <div class="uk-panel uk-panel-box">
-            <input id=ApplyLogScale type="checkbox">Apply Log Scale</input>
-            <input id=ReverseDisplay type="checkbox">Reverse Layout</input>
-            <select id=DataSets size="4">
-            </select>
-            <select id="SortDirection" size="4">
-                <option value="asc">asc</option>
-                <option value="desc">desc</option>
-                <option value="none">none</option>
-            </select>
-            <button type="button" class="uk-button uk-alert-primary " onclick="showNext();">Show Next</button>
-            <button  onclick="showAll();">Show All</button>
+    <div id=LeftSide class="col-sm-4">
+        <div id=ControlPanel>
+            <!--<h1>Heatmap Test</h1>-->
+            <div class="form-group">
+                <div class="col-sm-3">
+                    <div class="checkbox">
+                        <input id=ApplyLogScale type="checkbox">Apply Log Scale</input>
+                    </div>
+                    <div class="checkbox">
+                       <input id=ReverseDisplay type="checkbox">Reverse Layout</input>
+                    </div>
+                    <select id=DataSets size="4">
+                    </select>
+                    <select id="SortDirection" size="4">
+                        <option value="asc">asc</option>
+                        <option value="desc">desc</option>
+                        <option value="none">none</option>
+                    </select>
+                    <button type="button" class="" onclick="showNext();">Show Next</button>
+                    <button  onclick="showAll();">Show All</button>
+                </div>
+            </div>
+
         </div>
     </div>
-
-</div>
-<div id=DataPanel class="col-sm-9">
-    xx
-</div>
+    <div id="RightSide" class="col-sm-8" style="padding: 20px;" >
+    <!--<div id="RightSide" style="border: black; background-color: white;">-->
+        <div id=DataPanel class="'col-sm-5" style=" height: 100%; border: double black 0.05rem;  background-color: white;">
+            xx
+        </div>
+    </div>
 <script>document.write('<script src="../src/HeatMapRunner.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
 </body>
 </html>
