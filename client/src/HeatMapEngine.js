@@ -1,8 +1,8 @@
 var heatMapEngine_ns = function heatMapEngine_ns() {
     var xprivate = {};     // strictly for use of the test runner
     var xpublic = {};
-    var units = "rem";
-    var borderWidth = 0.2;
+    var units = "px";
+    var borderWidth = 2;
 
     gatherMixins(this.length, arguments, xprivate);
 

@@ -2,23 +2,15 @@
 <!-- TODO Add nocache stuff to headerrs -->
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
     <title>UIkit documentation</title>
     <link rel="stylesheet" href="../bootstrap-3.3.7-dist/css/bootstrap.min.css">
     <script src="../bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
     <style>
         body {
-            margin: 6rem
+            margin: 30px;
         }
-  /*      #ControlPanel, #HeaderPanel {
-            width: 600rem;
-            max-width : 600rem;
-        }
-        #DataPanel {
-            max-width : 600rem;
-            max-height : 600rem;
-        }
-*/        #LeftSide {
+        #LeftSide {
             background-color: #dbe3ff;
             height: 600px;
         }
@@ -28,9 +20,22 @@
             height: 600px;
             padding-top: 20px;
         }
+        /*select {*/
+            /*margin: 5px;*/
+        /*}*/
     </style>
+
 </head>
 <body>
+<script>
+    window.onload =
+            function() {
+                showAll = myShow;
+
+            };
+    window.onresize = function() { showAll(); };
+</script>
+
 <script type="text/javascript">
         var jsver = 1.0;
 </script>
@@ -73,35 +78,65 @@
 
     <div id=LeftSide class="col-sm-4">
         <div id=ControlPanel>
-            <!--<h1>Heatmap Test</h1>-->
-            <div class="form-group">
-                <div class="col-sm-3">
-                    <div class="checkbox">
-                        <input id=ApplyLogScale type="checkbox">Apply Log Scale</input>
+            <form class="form-horizontal">
+                <fieldset>
+                    <legend>HeatMap Test</legend>
+                    <div class="form-group">
+                        <div>
+                            <div class="form-group">
+                                <label for="DataSets" class="col-sm-3 control-label">Data Source</label>
+                                <div class="col-sm-7">
+                                    <select id="DataSets" class="form-control">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="SortDirection" class="col-sm-3 control-label">Sort Order</label>
+                                <div class="col-sm-7">
+                                    <select id="SortDirection" class="form-control">
+                                        <option value="asc">Ascending</option>
+                                        <option value="desc">Descending</option>
+                                        <option value="none">None</option>
+                                    </select>
+                                </div>
+                            </div>
+                             <div class="checkbox col-sm-offset-3">
+                                <input id="ApplyLogScale" type="checkbox">Apply Log Scale</input>
+                            </div>
+                            <div class="checkbox col-sm-offset-3">
+                                <input id="ReverseDisplay" type="checkbox">Reverse Layout</input>
+                            </div>
+                            <br>
+                            <button type="button" class="btn btn-primary col-sm-offset-3" onclick="showAll();">Show All</button>
+                        </div>
                     </div>
-                    <div class="checkbox">
-                       <input id=ReverseDisplay type="checkbox">Reverse Layout</input>
-                    </div>
-                    <select id=DataSets size="4">
-                    </select>
-                    <select id="SortDirection" size="4">
-                        <option value="asc">asc</option>
-                        <option value="desc">desc</option>
-                        <option value="none">none</option>
-                    </select>
-                    <button type="button" class="" onclick="showNext();">Show Next</button>
-                    <button  onclick="showAll();">Show All</button>
-                </div>
-            </div>
-
+                </fieldset>
+             </form>
         </div>
     </div>
     <div id="RightSide" class="col-sm-8" style="padding: 20px;" >
-    <!--<div id="RightSide" style="border: black; background-color: white;">-->
-        <div id=DataPanel class="'col-sm-5" style=" height: 100%; border: double black 0.05rem;  background-color: white;">
-            xx
+        <div id=DataPanel style="height: 100%; border: double black 0.05rem;  background-color: white;">
+
         </div>
     </div>
-<script>document.write('<script src="../src/HeatMapRunner.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
+    <script>
+        function myShow() {
+            var engine = heatMapEngine_ns();
+            var lo = engine.newLayout();
+            tiles = lo.layoutTiles(DataChoices[lstDataSets.value] );
+            var div = document.getElementById("DataPanel");
+            var rr = engine.newRenderer(
+                    {left: div.offsetLeft, top: div.offsetTop, width: div.offsetWidth, height: div.offsetHeight});
+            rr.renderLayout(tiles, function(div) {
+                div.innerHTML = "longish text";
+            });
+
+        }
+    </script>
+
+    <script>
+        document.write('<script src="../src/HeatMapRunner.js?dev='
+         + Math.floor(Math.random() * 100) + '"\><\/script>');
+    </script>
 </body>
 </html>
