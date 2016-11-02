@@ -1,6 +1,6 @@
 // mike may, 29-Oct-2016
 
-var heatMapQuotesHandler_ns = (function() {
+var heatMapQuotesHandler_ns = function() {
     var ii = 0;
 
     requestQuote();
@@ -8,8 +8,8 @@ var heatMapQuotesHandler_ns = (function() {
 
     function requestQuote() {
         var script = document.createElement("script");
-        // script.src = 'http://localhost/quotes/generate_quotes.php' + '?cachebreaker=' + ii++;
-        script.src = 'http://frankfurt-rdp/quotes/generate_quotes.php' + '?cachebreaker=' + ii++;
+        script.src = 'http://localhost/quotes/generate_quotes.php' + '?ticker=MSFT&cachebreaker=' + ii++;
+        // script.src = 'http://frankfurt-rdp/quotes/generate_quotes.php' + '?cachebreaker=' + ii++;
             // server returns "heatMapQuotesHandler_ns(...payload...);"
         document.getElementsByTagName("head")[0].appendChild(script);
     }
@@ -31,6 +31,8 @@ var heatMapQuotesHandler_ns = (function() {
             displayError("Invalid payload returned from server");
         }
     }
-})();
+};
+
+heatMapQuotesHandler_ns();
 
 

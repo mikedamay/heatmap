@@ -16,32 +16,34 @@ function getRandomDelay() {
 
     return $normalishDistribution[round(rand(1,10))];
 }
+
+$ticker = $_GET['ticker'];
 // get the next quote.  The id is provided by examining the value of
 // last_quote and finding the next in sequence or if we have reached the
 // end of the table then starting from the beginning
 $quoteQuery = "
-        SELECT
-          quote_id,
-          stock,
-          time_indicator,
-          price,
-          volume
-        FROM quotes.quotes
-        WHERE quote_id = 
-              CASE WHEN (SELECT last_quote
-                         FROM last_quote)
-                        >= (SELECT max(quote_id)
-                            FROM quotes)
-                THEN (SELECT min(quote_id)
-                      FROM quotes)
-              ELSE (SELECT min(quote_id)
-                    FROM quotes
-                    WHERE quote_id > (SELECT last_quote
-                                      FROM last_quote)) END
+SELECT
+  quote_id,
+  time_indicator,
+  price,
+  volume
+FROM quotes.quotes
+WHERE quote_id =
+      CASE WHEN (SELECT last_quote_id
+                 FROM stocks where ticker = '$ticker')
+                >= (SELECT max(quote_id)
+                    FROM quotes where stock_id = (select stock_id from stocks where ticker = '$ticker'))
+        THEN (SELECT min(quote_id)
+              FROM quotes where stock_id = (select stock_id from stocks where ticker = '$ticker'))
+      ELSE (SELECT min(quote_id)
+            FROM quotes
+            WHERE quote_id > (SELECT last_quote_id
+                              FROM stocks where ticker = '$ticker')
+            and stock_id = (select stock_id from stocks where ticker = '$ticker')) END
 ";
+$host = "localhost"; $userName = "quoter"; $password = "thisusercando_nothing!!"; $db = "quotes";
 try {
     /** too much effort to install mysqli or PDO on this custom rolled v5.4 installation */
-    $host = "localhost"; $userName = "quoter"; $password = "thisusercando_nothing!!"; $db = "quotes";
     if (!($conn = mysql_connect($host,$userName, $password))) {
         throw new Exception("unable to connect to mysql on $host as user $userName. " . mysql_error($conn));
     }
@@ -52,13 +54,13 @@ try {
         throw new Exception("quotes query failed. " . mysql_error($conn));
     }
     $rowQuote = mysql_fetch_assoc($rsQuote);
-    if (!mysql_query("update last_quote set last_quote=" . $rowQuote["quote_id"])) {
-        throw new Exception("failed to update last_quote. " . mysql_error($conn));
+    if (!mysql_query("update stocks set last_quote_id=" . $rowQuote["quote_id"] . " where ticker ='$ticker'")) {
+        throw new Exception("failed to update stocks with last_quote_id. " . mysql_error($conn));
     }
     sleep(getRandomDelay());
     $payload = "heatMapQuotesHandler_ns("
       . json_encode(array('data' => array(
-      'stock' => $rowQuote["stock"]
+      'stock' => $ticker
       , 'price' => (double)$rowQuote["price"]
       , 'volume' => (int)$rowQuote["volume"]
       ))) . ")";
