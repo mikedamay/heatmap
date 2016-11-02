@@ -12,12 +12,7 @@ var heatMapEngine_ns = function heatMapEngine_ns() {
         var lo = newLayout();
         tiles = lo.layoutTiles(heatMapData );
         var renderParams = null;
-        if ( jsver === undefined || jsver >= 1.6) {
-            renderParams = {left:2,top:2,width:30,height:30}
-            units = "rem";
-            borderWidth = 0.2;
-        }
-        else {
+ {
             renderParams = {left:20,top:20,width:500,height:500};
             units = "px";
             borderWidth = 2;

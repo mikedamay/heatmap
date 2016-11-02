@@ -14,10 +14,17 @@ if (Array.prototype.findIndex === undefined) {
     }
 }
 
+function drawHeatMap() {
+    engine.drawHeatMap(areas);
+}
+
+function refreshHeatMap() {
+    drawHeatMap();
+}
+
 function makeHeatMap(quote) {
     areas = updateAreas(areas, quote);
-    engine.drawHeatMap(areas);
-
+    drawHeatMap();
 }
 
 function updateAreas(areas, quote) {

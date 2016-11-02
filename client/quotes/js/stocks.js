@@ -1,6 +1,11 @@
-// mike may, 29-Oct-2016
+/**
+ * Created by mikedamay on 02/11/2016.
+ */
 
-var heatMapQuotesHandler_ns = (function() {
+
+var heatMapStocksHandler_ns;
+
+function makeStockHandler() {
     var ii = 0;
 
     requestQuote();
@@ -9,8 +14,8 @@ var heatMapQuotesHandler_ns = (function() {
     function requestQuote() {
         var script = document.createElement("script");
         // script.src = 'http://localhost/quotes/generate_quotes.php' + '?cahdebreaker='+ ii++ + '&jsonp_wrapper=heatMapQuotesHandler_ns&ticker=FB';
-        script.src = 'http://frankfurt-rdp/quotes/generate_quotes.php' + '?cahdebreaker='+ ii++ + '&jsonp_wrapper=heatMapQuotesHandler_ns&ticker=FB';
-            // server returns "heatMapQuotesHandler_ns(...payload...);"
+        script.src = 'http://frankfurt-rdp/quotes/list_stocks.php' + '?cahdebreaker='+ ii++ + '&jsonp_wrapper=heatMapStocksHandler_ns';
+        // server returns "heatMapQuotesHandler_ns(...payload...);"
         document.getElementsByTagName("head")[0].appendChild(script);
     }
 
@@ -19,10 +24,9 @@ var heatMapQuotesHandler_ns = (function() {
     }
 
     // payload: eg. { data: {stock: 'MSFT', price: 501.01, volume: 555444}}
-    return function handler(payload) {
+    heatMapStocksHandler_ns = function handler(payload) {
         if ( payload.data !== undefined) {
             makeHeatMap(payload.data);
-            requestQuote();     // I think we can assume that all errors are irrecoverable
         }
         else if (payload.err !== undefined) {
             displayError(payload.err);
@@ -31,6 +35,6 @@ var heatMapQuotesHandler_ns = (function() {
             displayError("Invalid payload returned from server");
         }
     }
-})();
+};
 
 
