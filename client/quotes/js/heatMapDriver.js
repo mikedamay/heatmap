@@ -24,7 +24,7 @@ function refreshHeatMap() {
 
 function makeHeatMap(quote) {
     areas = updateAreas(areas, quote);
-    drawHeatMap();
+    engine.drawHeatMap(areas);
 }
 
 function updateAreas(areas, quote) {

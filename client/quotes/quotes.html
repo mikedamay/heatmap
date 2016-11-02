@@ -2,7 +2,7 @@
 <!-- TODO Add nocache stuff to headerrs -->
 <head>
     <meta charset="utf-8">
-    <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Quotesn</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -24,9 +24,9 @@
             height: 600px;
             padding-top: 20px;
         }
-        /*select {*/
-            /*margin: 5px;*/
-        /*}*/
+        select {
+            margin: 5px;
+        }
     </style>
 </head>
 <body>
@@ -95,52 +95,58 @@
 <script>document.write('<script src="js/quotes.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
 <script>document.write('<script src="js/heatMapDriver.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
 
-
+n
     <div id=LeftSide class="col-sm-4">
         <div id=ControlPanel>
             <form class="form-horizontal">
                 <fieldset>
                     <legend>HeatMap Test</legend>
                     <div class="form-group">
-                        <div>
-                            <div class="form-group">
-                                <label for="DataSets" class="col-sm-3 control-label">Data Source</label>
-                                <div class="col-sm-7">
-                                    <select id="DataSets" class="form-control">
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="SortDirection" class="col-sm-3 control-label">Sort Order</label>
-                                <div class="col-sm-7">
-                                    <select id="SortDirection" class="form-control">
-                                        <option value="asc">Ascending</option>
-                                        <option value="desc">Descending</option>
-                                        <option value="none">None</option>
-                                    </select>
-                                </div>
-                            </div>
-                             <div class="checkbox col-sm-offset-3">
-                                <input id="ApplyLogScale" type="checkbox">Apply Log Scale</input>
-                            </div>
-                            <div class="checkbox col-sm-offset-3">
-                                <input id="ReverseDisplay" type="checkbox">Reverse Layout</input>
-                            </div>
-                            <br>
-                            <button type="button" class="btn btn-primary col-sm-offset-3" onclick="showAll();">Show All</button>
+                        <label for="Method" class="col-sm-3 control-label">Method</label>
+                        <div class="col-sm-7">
+                            <select id="Method" class="form-control">
+                                <option value="naive">Naïve</option>
+                                <option value="bruis">Bruis Huizing &amp; van Wijk</option>
+                            </select>
                         </div>
                     </div>
                 </fieldset>
                 <fieldset>
-                    <div class="container">
+                    <div>
                         <ul class="nav nav-tabs">
                             <li class="active"><a href="#testDataPanel" data-toggle="tab">Test Data</a></li>
                             <li><a href="#quotesPanel" data-toggle="tab">Quotes</a></li>
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane fade in active" id="testDataPanel">
-                                <h2>heading 2</h2>
-                                <p>testDataPanel</p>
+                                <br>
+                                <div class="form-group">
+                                    <label for="DataSets" class="col-sm-3 control-label">Data Source</label>
+                                    <div class="col-sm-7">
+                                        <select id="DataSets" class="form-control">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="SortDirection" class="col-sm-3 control-label">Sort Order</label>
+                                    <div class="col-sm-7">
+                                        <select id="SortDirection" class="form-control">
+                                            <option value="asc">Ascending</option>
+                                            <option value="desc">Descending</option>
+                                            <option value="none">None</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="checkbox col-sm-offset-3">
+                                    <input id="ApplyLogScale" type="checkbox">Apply Log Scale</input>
+                                </div>
+                                <div class="checkbox col-sm-offset-3">
+                                    <input id="ReverseDisplay" type="checkbox">Reverse Layout</input>
+                                </div>
+                                <br>
+                                <div>
+                                    <button type="button" class="btn btn-primary col-sm-offset-3" onclick="showAll();">Show All</button>
+                                </div>
                             </div>
                             <div class="tab-pane fade" id="quotesPanel">
                                 <h1>heading 1</h1>
