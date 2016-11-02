@@ -16,7 +16,7 @@ function getRandomDelay() {
 
     return $normalishDistribution[round(rand(1,10))];
 }
-
+$jsonpWrapper = $_GET['jsonp_wrapper'];
 $ticker = $_GET['ticker'];
 // get the next quote.  The id is provided by examining the value of
 // last_quote and finding the next in sequence or if we have reached the
@@ -42,6 +42,7 @@ WHERE quote_id =
             and stock_id = (select stock_id from stocks where ticker = '$ticker')) END
 ";
 $host = "localhost"; $userName = "quoter"; $password = "thisusercando_nothing!!"; $db = "quotes";
+$conn = null;
 try {
     /** too much effort to install mysqli or PDO on this custom rolled v5.4 installation */
     if (!($conn = mysql_connect($host,$userName, $password))) {
@@ -54,20 +55,25 @@ try {
         throw new Exception("quotes query failed. " . mysql_error($conn));
     }
     $rowQuote = mysql_fetch_assoc($rsQuote);
+    if (!$rowQuote) {
+        throw new Exception("quotes query failed.  There are no quotes for $ticker");
+    }
+
     if (!mysql_query("update stocks set last_quote_id=" . $rowQuote["quote_id"] . " where ticker ='$ticker'")) {
         throw new Exception("failed to update stocks with last_quote_id. " . mysql_error($conn));
     }
     sleep(getRandomDelay());
-    $payload = "heatMapQuotesHandler_ns("
-      . json_encode(array('data' => array(
+    $payload = json_encode(array('data' => array(
       'stock' => $ticker
       , 'price' => (double)$rowQuote["price"]
       , 'volume' => (int)$rowQuote["volume"]
-      ))) . ")";
-    print $payload;
+      )));
+    print ($jsonpWrapper === null ? $payload : "$jsonpWrapper( " . $payload . ")");
     mysql_close($conn);
 }
 catch (Exception $ex) {
-    print "heatMapQuotesHandler_ns( " . json_encode(array('err' => $ex->getMessage())) . ")";
+    $payload = json_encode(array('err' => $ex->getMessage())) ;
+    print ($jsonpWrapper === null ? $payload : "$jsonpWrapper( " . $payload . ")");
+    try {mysql_close($conn);} catch(Exception $ex2) {}
 }
 ?>
