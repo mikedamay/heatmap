@@ -1,56 +1,19 @@
 <html>
 <!-- TODO Add nocache stuff to headerrs -->
 <body>
-    <script type="text/javascript">
-        var jsver = 1.0;
-    </script>
-    <script language="Javascript1.1">
-        jsver = 1.1;
-    </script>
-    <script language="Javascript1.2">
-        jsver = 1.2;
-    </script>
-    <script language="Javascript1.3">
-        jsver = 1.3;
-    </script>
-    <script language="Javascript1.4">
-        jsver = 1.4;
-    </script>
-    <script language="Javascript1.5">
-        jsver = 1.5;
-    </script>
-    <script language="Javascript1.6">
-        jsver = 1.6;
-    </script>
-    <script language="Javascript1.7">
-        jsver = 1.7;
-    </script>
-    <script language="Javascript1.8">
-        jsver = 1.8;
-    </script>
-    <script type="text/javascript">
-        document.write('<p><b>Javascript version ' + jsver + ' is supported by this browser<\/b><\/p>');
-    </script>
     <!--
         I think that the following is the best approach to the caching problem when pages are loaded
         from the file system.  I will tolerate the inefficiency for a quiet life.
         http://stackoverflow.com/questions/118884/how-to-force-browser-to-reload-cached-css-js-files
     -->
     <script>document.write('<script src="src/advanced/mixins/SingleSquareness.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
-    <script>document.write('<script src="HeatMapTestData.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
+    <script>document.write('<script src="data/HeatMapTestData.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
     <script>document.write('<script src="src/HeatMapEngine.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
     <div id=ControlPanel style="position:absolute;left:20px;top:20px;">
-        <input id=ApplyLogScale type="checkbox">Apply Log Scale</input>
-        <input id=ReverseDisplay type="checkbox">Reverse Layout</input>
         <select id=DataSets size="4">
         </select>
-        <select id="SortDirection" size="4">
-            <option value="asc">asc</option>
-            <option value="desc">desc</option>
-            <option value="none">none</option>
-        </select>
-        <button  onclick="showNext();">Show Next</button>
-        <button  onclick="showAll();">Show All</button>
+        <!--<button  onclick="showNext();">Show Next</button>-->
+        <button  onclick="showAll();">Show</button>
     </div>
     <div id=DataPanel style="position:absolute;left:20px;top:150px;">
     </div>

@@ -3,13 +3,13 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Quotesn</title>
+    <title>Quotes</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="../bootstrap-3.3.7-dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../bootstrap-3.3.7-dist/css/bootstrap-theme.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="../bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../lib/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../lib/bootstrap-3.3.7-dist/css/bootstrap-theme.min.css">
+    <script src="../lib/jquery-1.12.4.js"></script>
+    <script src="../lib/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
     <style>
         body {
             margin: 30px;
@@ -45,13 +45,6 @@
 -->
 
 <script>
-    window.onload =
-            function() {
-                showAll = myShow;
-
-            };
-    window.onresize = function() { refreshHeatMap(); };
-//    window.onresize = function() { showAll(); };
 </script>
 
 <script type="text/javascript">
@@ -90,12 +83,13 @@
     http://stackoverflow.com/questions/118884/how-to-force-browser-to-reload-cached-css-js-files
 -->
 <script>document.write('<script src="../src/advanced/mixins/SingleSquareness.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
-<script>document.write('<script src="../HeatMapTestData.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
+<script>document.write('<script src="../data/HeatMapTestData.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
 <script>document.write('<script src="../src/HeatMapEngine.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
 <script>document.write('<script src="js/quotes.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
 <script>document.write('<script src="js/heatMapDriver.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
+<script>document.write('<script src="js/quotesVM.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
 
-n
+
     <div id=LeftSide class="col-sm-4">
         <div id=ControlPanel>
             <form class="form-horizontal">
@@ -110,6 +104,10 @@ n
                             </select>
                         </div>
                     </div>
+                    <div class="checkbox col-sm-offset-3">
+                        <input id="ApplyLogScale" type="checkbox">Apply Log Scale</input>
+                    </div>
+                    <br>
                 </fieldset>
                 <fieldset>
                     <div>
@@ -136,9 +134,6 @@ n
                                             <option value="none">None</option>
                                         </select>
                                     </div>
-                                </div>
-                                <div class="checkbox col-sm-offset-3">
-                                    <input id="ApplyLogScale" type="checkbox">Apply Log Scale</input>
                                 </div>
                                 <div class="checkbox col-sm-offset-3">
                                     <input id="ReverseDisplay" type="checkbox">Reverse Layout</input>
@@ -170,21 +165,6 @@ n
 
 
     <script>
-        function drawHeatMap() {
-
-        }
-        function myShow() {
-            var engine = heatMapEngine_ns();
-            var lo = engine.newLayout();
-            tiles = lo.layoutTiles(DataChoices[lstDataSets.value] );
-            var div = document.getElementById("DataPanel");
-            var rr = engine.newRenderer(
-                    {left: div.offsetLeft, top: div.offsetTop, width: div.offsetWidth, height: div.offsetHeight});
-            rr.renderLayout(tiles, function(div) {
-                div.innerHTML = "longish text";
-            });
-
-        }
     </script>
 
     <script>

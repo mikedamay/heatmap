@@ -12,12 +12,14 @@ for ( var dataSetName in DataChoices) {
 
 function gatherParamsFromPage() {
     var params = {left:20,top:20,width:500,height:500};
+/*
     var chkApplyLogScale = document.getElementById("ApplyLogScale");
     params.applyLogScale = chkApplyLogScale.checked;
     var chkReverseDisplay = document.getElementById("ReverseDisplay");
     params.reverseDisplay = chkReverseDisplay.checked;
     var lstSortDirection = document.getElementById("SortDirection");
     params.sortDirection = lstSortDirection.value;
+*/
     return params;
 }
 
