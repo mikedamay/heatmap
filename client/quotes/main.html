@@ -77,6 +77,11 @@
 <script type="text/javascript">
         document.write('<p><b>Javascript version ' + jsver + ' is supported by this browser<\/b><\/p>');
 </script>
+<script>
+    var showAll;
+    document.doStuff = function() {alert('bob');};
+    document.refreshHeatMap = function() {alert('alice');};
+</script>
 <!--
     I think that the following is the best approach to the caching problem when pages are loaded
     from the file system.  I will tolerate the inefficiency for a quiet life.
@@ -86,9 +91,8 @@
 <script>document.write('<script src="../data/HeatMapTestData.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
 <script>document.write('<script src="../src/HeatMapEngine.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
 <script>document.write('<script src="js/quotes.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
+<script>document.write('<script src="js/main.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
 <script>document.write('<script src="js/heatMapDriver.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
-<script>document.write('<script src="js/quotesVM.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
-
 
     <div id=LeftSide class="col-sm-4">
         <div id=ControlPanel>
@@ -112,11 +116,11 @@
                 <fieldset>
                     <div>
                         <ul class="nav nav-tabs">
-                            <li class="active"><a href="#testDataPanel" data-toggle="tab">Test Data</a></li>
-                            <li><a href="#quotesPanel" data-toggle="tab">Quotes</a></li>
+                            <li onclick="document.doStuff();" id = "testDataTab" class="active"><a href="#testDataPanel" data-toggle="tab">Test Data</a></li>
+                            <li onclick="document.doStuff();" ><a href="#quotesPanel" data-toggle="tab">Quotes</a></li>
                         </ul>
                         <div class="tab-content">
-                            <div class="tab-pane fade in active" id="testDataPanel">
+                            <div class="tab-pane active" id="testDataPanel">
                                 <br>
                                 <div class="form-group">
                                     <label for="DataSets" class="col-sm-3 control-label">Data Source</label>
@@ -140,10 +144,10 @@
                                 </div>
                                 <br>
                                 <div>
-                                    <button type="button" class="btn btn-primary col-sm-offset-3" onclick="showAll();">Show All</button>
+                                    <button id="showAllBtnId" type="button" class="btn btn-primary col-sm-offset-3" onclick="showAll();">Show All</button>
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="quotesPanel">
+                            <div class="tab-pane" id="quotesPanel">
                                 <h1>heading 1</h1>
                                 <p>quotesPanel</p>
                             </div>
@@ -164,12 +168,10 @@
 
 
 
-    <script>
-    </script>
-
-    <script>
-        document.write('<script src="../src/HeatMapRunner.js?dev='
-         + Math.floor(Math.random() * 100) + '"\><\/script>');
-    </script>
+        <!--<script src="../src/HeatMapRunner.js"></script>-->
+<script>document.write('<script src="js/quotesVM.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
+<script>document.write('<script src="js/testDataVM.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
+<script>document.write('<script src="../src/HeatMapRunner.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
+<script>document.write('<script src="js/loadcomplete.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
 </body>
 </html>

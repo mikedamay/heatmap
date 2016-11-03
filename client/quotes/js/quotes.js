@@ -21,7 +21,7 @@ var heatMapQuotesHandler_ns = (function() {
     // payload: eg. { data: {stock: 'MSFT', price: 501.01, volume: 555444}}
     return function handler(payload) {
         if ( payload.data !== undefined) {
-            makeHeatMap(payload.data);
+            document.hmcontext.makeHeatMap(payload.data);
             requestQuote();     // I think we can assume that all errors are irrecoverable
         }
         else if (payload.err !== undefined) {

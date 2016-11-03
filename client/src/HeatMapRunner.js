@@ -41,7 +41,7 @@ var showNext = function() {
     counter++;
 };
 
-var showAll = function() {
+showAll = showAll || function() {
 try
 {
     if ( lstDataSets.options.length === 0 ) {
