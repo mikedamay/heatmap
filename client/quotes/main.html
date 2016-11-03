@@ -20,29 +20,35 @@
         }
 
         #RightSide {
-            background-color: #fff5d4;
+            /*background-color: #fff5d4;*/
+            background-color: hsl(60, 40%, 90%);
+            /*background-color: hsl(60, 60%, 80%);*/  /* good starting point */
             height: 600px;
             padding-top: 20px;
         }
         select {
             margin: 5px;
         }
-    </style>
-</head>
-<body>
+        .flash {
+            background: hsl(60, 80%, 90%);
+            animation: color-me-in 1s; /* other keywords like "infinite alternate" can be useful here */
+        }
+        .noflash {
+            background: hsl(60, 80%, 90%);
+        }
 
-<!--
-<script type="text/javascript">
-    $(document).ready(function(){
-        $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
-            var activeTab = $(e.target).text(); // Get the name of active tab
-            var previousTab = $(e.relatedTarget).text(); // Get the name of previous tab
-            $(".active-tab span").html(activeTab);
-            $(".previous-tab span").html(previousTab);
-        });
-    });
-</script>
--->
+        @keyframes color-me-in {
+            /* You could think of as "step 1" */
+            0% {
+                background: hsl(60, 40%, 90%);
+            }
+            /* You could think of as "step 2" */
+            100% {
+                background: hsl(60, 80%, 90%);
+            }
+        }    </style>
+</head>
+<body class="flash">
 
 <script>
 </script>
@@ -117,7 +123,7 @@
                     <div>
                         <ul class="nav nav-tabs">
                             <li onclick="document.doStuff();" id = "testDataTab" class="active"><a href="#testDataPanel" data-toggle="tab">Test Data</a></li>
-                            <li onclick="document.doStuff();" ><a href="#quotesPanel" data-toggle="tab">Quotes</a></li>
+                            <li onclick="document.doStuff();" id = "quotesTab" ><a href="#quotesPanel" data-toggle="tab">Quotes</a></li>
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane active" id="testDataPanel">
@@ -148,8 +154,14 @@
                                 </div>
                             </div>
                             <div class="tab-pane" id="quotesPanel">
-                                <h1>heading 1</h1>
-                                <p>quotesPanel</p>
+                                <br>
+                                <div class="form-group">
+                                    <label for="StockList" class="col-sm-3 control-label">Stocke</label>
+                                    <div class="col-sm-7">
+                                        <select id="StockList" class="form-control">
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>               </fieldset>
@@ -172,6 +184,7 @@
 <script>document.write('<script src="js/quotesVM.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
 <script>document.write('<script src="js/testDataVM.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
 <script>document.write('<script src="../src/HeatMapRunner.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
+<script>document.write('<script src="js/stocks.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
 <script>document.write('<script src="js/loadcomplete.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
 </body>
 </html>

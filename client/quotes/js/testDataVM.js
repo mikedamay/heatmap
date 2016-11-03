@@ -36,7 +36,7 @@
        var div = document.getElementById("DataPanel");
        var rr = engine.newRenderer(
            {left: div.offsetLeft, top: div.offsetTop, width: div.offsetWidth, height: div.offsetHeight});
-       rr.renderLayout(tiles, function(div) {div.innerHTML = "longish text";});
+       rr.renderLayout(tiles);
     }
 
     function refreshHeatMap() {
@@ -56,9 +56,12 @@
         drawHeatMap(engine, areas);
     }
     function activateTab() {
+        document.getElementById("DataPanel").innerHTML = "";
+        engine = heatMapEngine_ns();
         window.onresize = refreshHeatMap;
     }
     function deactivateTab() {
+        document.getElementById("DataPanel").innerHTML = "";
         areas = [];
         tiles = [];
         engine = dummyEngine;

@@ -336,9 +336,9 @@ var heatMapEngine_ns = function heatMapEngine_ns() {
 
         var spublic = {};
 
-        function renderTile(tile, left, top, width, height ) {
+        function renderTile(tile, left, top, width, height, idx, tiles) {
             var div = writeTileHTML(left, top, width, height, 0 );
-            tile.renderInnerTile(div);
+            tile.renderInnerTile(div, idx, tiles);
         };
         function writeTileHTML( left, top, width, height, backgroundColor ) {
             debugPrint( "left="+left+" top="+top+" width="+width+" height=" +height);
@@ -350,7 +350,7 @@ var heatMapEngine_ns = function heatMapEngine_ns() {
             divTag.style.width = width+units;
             divTag.style.height = height+units;
             divTag.style.border = borderWidth + units + " solid rgb(153,0,153)";
-            divTag.style.backgroundColor = "green";
+            //divTag.style.backgroundColor = "green";
             var divDataPanel = document.getElementById("DataPanel");
             divDataPanel.appendChild(divTag);
             return divTag;
@@ -364,20 +364,24 @@ var heatMapEngine_ns = function heatMapEngine_ns() {
         }
         spublic.renderLayout = function renderLayout( tiles, renderInnerTile) {
             try {
-
+                if (renderInnerTile === undefined) {
+                    renderInnerTile = function(div) {
+                        div.style.backgroundColor = "green";
+                        div.innnerHTML = "long way home";
+                    };
+                }
                 document.getElementById("DataPanel").innerHTML = "<div/>";
                 var totalArea = calcTotalArea(tiles);
                 var xScale = canvasRect.width / Math.sqrt(totalArea);
                 var yScale = canvasRect.height / Math.sqrt(totalArea);
                 for ( var ii = 0; ii < tiles.length; ii++ ) {
-                    if (renderInnerTile !== undefined ) {
-                        tiles[ii].renderInnerTile = renderInnerTile;
-                    }
+                    tiles[ii].renderInnerTile = renderInnerTile;
                     renderTile(tiles[ii]
                       , canvasRect.left + tiles[ii].get_left() * xScale
                       , canvasRect.top + tiles[ii].get_top() * yScale
                       , tiles[ii].get_width() * xScale
                       , tiles[ii].get_height() * yScale
+                      , ii, tiles
                       );
                 }
             }

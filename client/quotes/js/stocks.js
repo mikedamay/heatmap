@@ -2,21 +2,32 @@
  * Created by mikedamay on 02/11/2016.
  */
 
-
-var heatMapStocksHandler_ns;
-
-function makeStockHandler() {
+(function() {
     var ii = 0;
+    if (document.hmcontext === undefined) {
+        document.hmcontext = {};
+    }
 
-    requestQuote();
+    requestStocks();
 
 
-    function requestQuote() {
+    function requestStocks() {
         var script = document.createElement("script");
         // script.src = 'http://localhost/quotes/generate_quotes.php' + '?cahdebreaker='+ ii++ + '&jsonp_wrapper=heatMapQuotesHandler_ns&ticker=FB';
-        script.src = 'http://frankfurt-rdp/quotes/list_stocks.php' + '?cahdebreaker='+ ii++ + '&jsonp_wrapper=heatMapStocksHandler_ns';
-        // server returns "heatMapQuotesHandler_ns(...payload...);"
+        script.src = 'http://frankfurt-rdp/quotes/list_stocks.php' + '?cahdebreaker='+ ii++
+          + '&jsonp_wrapper=' + encodeURIComponent('document.hmcontext.handleStocks');
+        // server returns "doument.hmcontext.handleStocks(...payload...);"
         document.getElementsByTagName("head")[0].appendChild(script);
+    }
+    function populateStocksList(stocks) {
+        var stockList = document.getElementById("StockList");
+
+        for ( var stock in stocks) {
+            var opt = document.createElement("OPTION");
+            opt.text = stocks[stock];
+            opt.value = stocks[stock];
+            stockList.options.add(opt);
+        }
     }
 
     function displayError(msg) {
@@ -24,9 +35,10 @@ function makeStockHandler() {
     }
 
     // payload: eg. { data: {stock: 'MSFT', price: 501.01, volume: 555444}}
-    heatMapStocksHandler_ns = function handler(payload) {
+    document.hmcontext.handleStocks = function handler(payload) {
         if ( payload.data !== undefined) {
-            makeHeatMap(payload.data);
+            populateStocksList(payload.data);
+            heatMapQuotesHandler_ns = doheatMapQuotesHandler_ns();
         }
         else if (payload.err !== undefined) {
             displayError(payload.err);
@@ -35,6 +47,4 @@ function makeStockHandler() {
             displayError("Invalid payload returned from server");
         }
     }
-};
-
-
+})();

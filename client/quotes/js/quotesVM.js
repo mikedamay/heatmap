@@ -5,10 +5,17 @@
 (function() {
     var tabId = "quotesTab";
 
-    var dummyEngine = {newLayout: function() {return [];}, newRenderer: function() {}}
+    var dummyEngine = {
+        newLayout: function() {
+            return {layoutTiles: function() {return [];}}
+        }
+      , newRenderer: function() {
+            return {renderLayout: function() {}}
+      }
+    };
     var engine = dummyEngine;
     var areas = [];
-    var tiles = [];
+    // var tiles = [];
 
     if (Array.prototype.findIndex === undefined) {
         areas.findIndex = function findIndex(fn) {
@@ -40,8 +47,9 @@
 
     document.hmcontext.makeHeatMap = function makeHeatMap(quote) {
         areas = updateAreas(areas, quote);
-        drawHeatMap(areas);
+        drawHeatMap(engine, areas);
     }
+    heatMapQuotesHandler_ns = doheatMapQuotesHandler_ns();
 
     function updateAreas(areas, quote) {
         var range = Math.round(quote.price * 10);
@@ -59,22 +67,17 @@
 
     function drawHeatMap(engine, areas) {
         var lo = engine.newLayout();
-        tiles = lo.layoutTiles(areas);
+        var tiles = lo.layoutTiles(areas);
         var div = document.getElementById("DataPanel");
         var rr = engine.newRenderer(
             {left: div.offsetLeft, top: div.offsetTop, width: div.offsetWidth, height: div.offsetHeight});
-        rr.renderLayout(tiles, function(div) {div.innerHTML = "longish text";});
+        rr.renderLayout(tiles, function(div, idx, tiles) { div.className= idx == tiles.length - 1 ? "flash" : "noflash"; div.innerHTML = "longish text";});
     }
 
     function refreshHeatMap() {
         drawHeatMap(engine, areas);
     }
 
-    function showAll() {
-        engine = heatMapEngine_ns();
-        areas = DataChoices[lstDataSets.value];
-        drawHeatMap(engine, areas);
-    }
     function activateTab() {
         window.onresize = refreshHeatMap;
         engine = heatMapEngine_ns();
