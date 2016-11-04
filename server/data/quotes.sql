@@ -29,19 +29,19 @@ create table quotes (
 -- ~ problems with tilde - load data interprets it as root
 -- don't know how to give it a relative path otherwise csv
 -- files must be copied to <mysql>/var/quotes which complicates drop database
-load data infile '/home/mike/projects/heatmap/server/data/aapl.csv'
+load data infile '/opt2/heatmap/server/data/aapl.csv'
   into table quotes fields TERMINATED BY ','
   (stock, time_indicator, price, volume)
   set quote_id = null, stock_id = null;
-load data infile '/home/mike/projects/heatmap/server/data/msft.csv'
+load data infile '/opt2/heatmap/server/data/msft.csv'
   into table quotes fields TERMINATED BY ','
   (stock, time_indicator, price, volume)
   set quote_id = null, stock_id = null;
-load data infile '/home/mike/projects/heatmap/server/data/goog.csv'
+load data infile '/opt2/heatmap/server/data/goog.csv'
   into table quotes fields TERMINATED BY ','
   (stock, time_indicator, price, volume)
   set quote_id = null, stock_id = null;
-load data infile '/home/mike/projects/heatmap/server/data/fb.csv'
+load data infile '/opt2/heatmap/server/data/fb.csv'
   into table quotes fields TERMINATED BY ','
   (stock, time_indicator, price, volume)
   set quote_id = null, stock_id = null;
