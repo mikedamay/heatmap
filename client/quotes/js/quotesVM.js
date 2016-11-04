@@ -56,11 +56,15 @@
         var idx = areas.findIndex(function (el) {
             return el.range === range;
         });
+        // using areas[0] below feels a bit nasty but possibly in keeping with
+        // a schema free aproach to data.
         if ( idx === -1 ) {
             areas.push({area: quote.volume, range: range});
+            areas[0].lastUpdateIdx = areas.length - 1;
         }
         else {
             areas[idx].area += quote.volume;
+            areas[0].lastUpdateIdx = idx
         }
         return areas;
     }
@@ -71,7 +75,7 @@
         var div = document.getElementById("DataPanel");
         var rr = engine.newRenderer(
             {left: div.offsetLeft, top: div.offsetTop, width: div.offsetWidth, height: div.offsetHeight});
-        var renderInnerTile = function(div) {
+        var renderInnerTile = function(div, idx, tiles) {
             // this is pretty horrible (such a local operation taking dependenies on
             // affecting the document as a whole, but...
             // Even given the above compromise - calculatoing used height and widht
@@ -95,7 +99,10 @@
                 divTest.remove();
                 return res;
             }
-            var text = '' + this.get_extraData().area + ' @' + ' ' + this.get_extraData().range;
+            // TODO: I cannot make this display multi-line - resize will cause it to display multi-line but not
+            // the initial display.
+            var text = this.get_extraData().area + ' @'  + this.get_extraData().range;
+            div.className = "";
             if (isSufficientArea() ) {
                 div.innerHTML =  text;
                 div.style.display='flex';
@@ -105,9 +112,17 @@
             else {
                 var span = document.createElement('span');
                 span.innerHTML = text;
-                span.className = "tooltip";
+                span.className = "tooltipx";
+                span.style.backgroundColor = "white";
+                span.style.border = "black 1px solid";
                 div.className = "ht";
                 div.appendChild(span);
+            }
+            if (tiles[0].get_extraData().lastUpdateIdx == idx) {
+                div.className = div.className + " flash";
+            }
+            else {
+                div.className = div.className + " noflash";
             }
         };
         rr.renderLayout(tiles, renderInnerTile);

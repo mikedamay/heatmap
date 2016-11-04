@@ -66,23 +66,13 @@
                div.style.justifyContent='center';
            }
            else {
-                   var span = document.createElement('span');
-                   span.innerHTML = text;
-                   span.className = "xxx";
-                    span.style.backgroundColor = "white";
-                    span.style.border = "black 1px solid";
-                   div.className = "ht";
-                   div.appendChild(span);
-                   // document.getElementById("DataPanel").appendChild(span);
-/*
-               div.onmousedown = function() {
-                   var span = document.createElement('span');
-                   span.innerHTML = text;
-                   span.className = "xxx";
-                   div.className = "ht";
-                   div.appendChild(span);
-               }
-*/
+                var span = document.createElement('span');
+                span.innerHTML = text;
+                span.className = "tooltipx";
+                span.style.backgroundColor = "white";
+                span.style.border = "black 1px solid";
+                div.className = "ht";
+                div.appendChild(span);
            }
        };
        // the testTile is used to roughly calculate the typical area required by the text
