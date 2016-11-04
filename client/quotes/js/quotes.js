@@ -21,7 +21,7 @@ function doheatMapQuotesHandler_ns() {
     function requestQuote() {
         var script = document.createElement("script");
         // script.src = 'http://localhost/quotes/generate_quotes.php' + '?cahdebreaker='+ ii++ + '&jsonp_wrapper=heatMapQuotesHandler_ns&ticker=FB';
-        script.src = 'http://54.93.212.193/quotes/generate_quotes.php' + '?cahdebreaker='+ ii++ + '&jsonp_wrapper=heatMapQuotesHandler_ns&ticker=' + stock;
+        script.src = 'http://54.93.212.68/quotes/generate_quotes.php' + '?cahdebreaker='+ ii++ + '&jsonp_wrapper=heatMapQuotesHandler_ns&ticker=' + stock;
             // server returns "heatMapQuotesHandler_ns(...payload...);"
         document.getElementsByTagName("head")[0].appendChild(script);
         lastRequestTime = new Date();

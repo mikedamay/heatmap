@@ -46,7 +46,20 @@
             100% {
                 background: hsl(60, 80%, 90%);
             }
-        }    </style>
+        }
+        .ht:hover .xxx {
+            display:block;
+        }
+
+        .xxx {
+            display: none;
+            color: black;
+            margin-left: 28px; /* moves the tooltip to the right */
+            margin-top: 15px; /* moves it down */
+            position: absolute;
+            z-index: 1000;
+        }
+    </style>
 </head>
 <body class="flash">
 

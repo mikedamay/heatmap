@@ -36,7 +36,58 @@
        var div = document.getElementById("DataPanel");
        var rr = engine.newRenderer(
            {left: div.offsetLeft, top: div.offsetTop, width: div.offsetWidth, height: div.offsetHeight});
-       rr.renderLayout(tiles);
+       var renderInnerTile = function(div) {
+           // this is pretty horrible (such a local operation taking dependenies on
+           // affecting the document as a whole, but...
+           // Even given the above compromise - calculatoing used height and widht
+           // is non-trivial.  The following 'M' based approach is sufficient
+           // for our purposes
+           function isSufficientArea() {
+               var body = document.getElementsByTagName("body")[0];
+               var divTest = document.createElement("div");
+               divTest.innerHTML = "M";
+               divTest.style.position = "absolute";
+               // divTest.style.visibility = "hidden";
+               divTest.style.display='flex';
+               divTest.style.alignItems='center';
+               divTest.style.justifyContent='center';
+               divTest.style.height = "auto";
+               divTest.style.width = "auto";
+               body.appendChild(divTest);
+               var res = div.clientHeight >= divTest.clientHeight*2 && div.clientWidth >= divTest.clientWidth * 8;
+               divTest.remove();
+               return res;
+           }
+           var text = 'rather longish text - ' + this.get_extraData().area;
+           if (isSufficientArea() ) {
+               div.innerHTML = text;
+               div.style.display='flex';
+               div.style.alignItems='center';
+               div.style.justifyContent='center';
+           }
+           else {
+                   var span = document.createElement('span');
+                   span.innerHTML = text;
+                   span.className = "xxx";
+                    span.style.backgroundColor = "white";
+                    span.style.border = "black 1px solid";
+                   div.className = "ht";
+                   div.appendChild(span);
+                   // document.getElementById("DataPanel").appendChild(span);
+/*
+               div.onmousedown = function() {
+                   var span = document.createElement('span');
+                   span.innerHTML = text;
+                   span.className = "xxx";
+                   div.className = "ht";
+                   div.appendChild(span);
+               }
+*/
+           }
+       };
+       // the testTile is used to roughly calculate the typical area required by the text
+       // var testTile = {renderInnerTile: renderInnerTile, get_extraData: function() {return '1234';}};
+       rr.renderLayout(tiles, renderInnerTile);
     }
 
     function refreshHeatMap() {

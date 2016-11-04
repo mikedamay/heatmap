@@ -84,7 +84,7 @@ var heatMapEngine_ns = function heatMapEngine_ns() {
                     height = length * (heatMapData[ii].area / totalArea );
                     width = heatMapData[ii].area / height;
                 }
-                var tile = newTile(curLeft, curTop, width, height);
+                var tile = newTile(curLeft, curTop, width, height, heatMapData[ii]);
                 committedTiles.push(tile);
                 if (side === 'width')
                 {
@@ -138,7 +138,7 @@ var heatMapEngine_ns = function heatMapEngine_ns() {
     };
 
     /// tile contains the data to draw an appropriate rectangle on the heatmap
-    var newTile = xprivate.newTile = function newTile(left, top, width, height) {
+    var newTile = xprivate.newTile = function newTile(left, top, width, height, extraData) {
         assert( typeof(left) === 'number'
           && typeof(top) === 'number'
           && typeof(width) === 'number'
@@ -159,6 +159,9 @@ var heatMapEngine_ns = function heatMapEngine_ns() {
         };
         xpublic.get_area = function get_area() {
             return width * height;
+        };
+        xpublic.get_extraData = function get_extraData() {
+            return extraData === undefined ? {} : extraData;
         };
         xpublic.renderInnerTile = function renderInnerTile() {};
 //        /// if you add arbitrary properties to the tile when you creeate it
