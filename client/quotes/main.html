@@ -107,8 +107,10 @@
     http://stackoverflow.com/questions/118884/how-to-force-browser-to-reload-cached-css-js-files
 -->
 <script>document.write('<script src="../src/advanced/mixins/SingleSquareness.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
+<script>document.write('<script src="../src/advanced/mixins/WorstSquareness.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
 <script>document.write('<script src="../data/HeatMapTestData.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
 <script>document.write('<script src="../src/HeatMapEngine.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
+<script>document.write('<script src="js/BHWLayout.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
 <script>document.write('<script src="js/quotes.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
 <script>document.write('<script src="js/main.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
 <script>document.write('<script src="js/heatMapDriver.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
@@ -152,8 +154,8 @@
                                     <label for="SortDirection" class="col-sm-3 control-label">Sort Order</label>
                                     <div class="col-sm-7">
                                         <select id="SortDirection" class="form-control">
-                                            <option value="asc">Ascending</option>
                                             <option value="desc">Descending</option>
+                                            <option value="asc">Ascending</option>
                                             <option value="none">None</option>
                                         </select>
                                     </div>
@@ -162,8 +164,10 @@
                                     <input id="ReverseDisplay" type="checkbox">Reverse Layout</input>
                                 </div>
                                 <br>
-                                <div>
-                                    <button id="showAllBtnId" type="button" class="btn btn-primary col-sm-offset-3" onclick="showAll();">Show All</button>
+                                <div class="form-group">
+                                    <button id="showAllBtn" type="button" class="btn btn-primary col-sm-offset-3">Show All</button>
+                                    <button id="showNextBtn" type="button" class="btn">Show Next</button>
+                                    <button id="clearBtn" type="button" class="btn col-sm-offset-5">Clear</button>
                                 </div>
                             </div>
                             <div class="tab-pane" id="quotesPanel">

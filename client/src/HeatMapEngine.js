@@ -416,7 +416,7 @@ var heatMapEngine_ns = function heatMapEngine_ns() {
             copyMembers(members, xpublic);
             copyMembers(members, xprivate);
         }
-    };
+    }
 
     function gatherMixins(numNamedArgs, args, xprivate) {
         var copyMembers = function copyMembers(members, source) {
