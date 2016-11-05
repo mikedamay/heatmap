@@ -26,9 +26,9 @@ create table quotes (
   ,stock_id int
   ,PRIMARY KEY(quote_id)
 );
--- ~ problems with tilde - load data interprets it as root
--- don't know how to give it a relative path otherwise csv
--- files must be copied to <mysql>/var/quotes which complicates drop database
+
+-- change path to suit (x4).
+-- "local" keyword is not available in v14.14 currently installed
 load data infile '/opt2/heatmap/server/data/aapl.csv'
   into table quotes fields TERMINATED BY ','
   (stock, time_indicator, price, volume)
