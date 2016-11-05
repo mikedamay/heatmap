@@ -13,7 +13,7 @@
 
     function requestStocks() {
         var script = document.createElement("script");
-        script.src = 'http://54.93.115.186/heatmap-server/list_stocks.php' + '?cahdebreaker='+ ii++
+        script.src = '/heatmap-server/list_stocks.php' + '?cahdebreaker='+ ii++
           + '&jsonp_wrapper=' + encodeURIComponent('document.hmcontext.handleStocks');
         // server returns "doument.hmcontext.handleStocks(...payload...);"
         document.getElementsByTagName("head")[0].appendChild(script);
