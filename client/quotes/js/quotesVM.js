@@ -52,6 +52,18 @@
         areas = updateAreas(areas, quote);
         drawHeatMap(engine, areas);
     }
+    function getStock() {
+        var stockList = document.getElementById("StockList");
+        if (stockList.options.length === 0) {
+            return function () {
+                return "none";
+            };
+        }
+        if (stockList.options.selectedIndex === -1) {
+            stockList.value = stockList.options.item(0).value;
+        }
+        return stockList.value;
+    }
 
     function updateAreas(areas, quote) {
         var range = Math.round(quote.price * 10);
@@ -141,8 +153,7 @@
         // having been returned
         // heatMapQuotesHandler_ns = doheatMapQuotesHandler_ns();
         document.hmcontext.quotesFetcher.requestQuotes(
-          'GOOG', document.hmcontext.makeHeatMap);
-        // document.hmcontext.quotesComms.start();
+          getStock(), document.hmcontext.makeHeatMap);
     }
     function deactivateTab() {
         areas = [];

@@ -2,7 +2,11 @@
  * Created by mikedamay on 06/11/2016.
  */
 
-// depends on init.js
+// depends on init.js and stocksComms
+/**
+ * this plays at the model level - it does level type things such as
+ * formatting and validation before calling back the view-model
+ */
 (function() {
     var xpublic = {};
 
@@ -10,7 +14,8 @@
         document.hmcontext.stocksComms.requestStocks(
             populateStocksList, displayError
         );
-    }
+    };
+    // TODO move to quotesVM
     function populateStocksList(stocks) {
         var stockList = document.getElementById("StockList");
 
