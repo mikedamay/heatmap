@@ -18,7 +18,6 @@
     };
     var engine = dummyEngine;
     var areas = [];
-    // var tiles = [];
 
     if (Array.prototype.findIndex === undefined) {
         areas.findIndex = function findIndex(fn) {
@@ -151,7 +150,6 @@
         engine = heatMapEngine_ns();
         // the quotes handler has a dependency on the list of stocks
         // having been returned
-        // heatMapQuotesHandler_ns = doheatMapQuotesHandler_ns();
         document.hmcontext.quotesFetcher.requestQuotes(
           getStock(), document.hmcontext.makeHeatMap);
     }
