@@ -11,6 +11,19 @@
     var areas;
     var tiles;
 
+
+    var lstDataSets = document.getElementById("DataSets");
+
+    for ( var dataSetName in DataChoices) {
+        opt = document.createElement("OPTION");
+        opt.text = dataSetName;
+        opt.value = dataSetName;
+        lstDataSets.options.add(opt);
+    }
+
+    // initialising later
+
+
     var li = document.getElementById(tabId);
     li.onclick = function() {
         if (document.hmcontext.activeTab !== tabId) {

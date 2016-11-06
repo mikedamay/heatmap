@@ -16,8 +16,6 @@
     document.hmcontext.deactivateTab = function() {};
     document.hmcontext.activeTab = tabId;       // active tab by default
                                                 // will be overwritten by any VM
-                                                // initialising later
-
 
     function makeHeatMap(quote) {
         areas = updateAreas(areas, quote);
