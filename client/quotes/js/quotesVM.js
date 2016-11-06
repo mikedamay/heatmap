@@ -2,8 +2,11 @@
  * Created by mikedamay on 02/11/2016.
  */
 
+// depends pn stocksFetcher.js
 (function() {
     var tabId = "quotesTab";
+
+    document.hmcontext.stocksFetcher.requestStocks();
 
     var dummyEngine = {
         newLayout: function() {
@@ -49,7 +52,6 @@
         areas = updateAreas(areas, quote);
         drawHeatMap(engine, areas);
     }
-    heatMapQuotesHandler_ns = doheatMapQuotesHandler_ns();
 
     function updateAreas(areas, quote) {
         var range = Math.round(quote.price * 10);
@@ -135,6 +137,9 @@
     function activateTab() {
         window.onresize = refreshHeatMap;
         engine = heatMapEngine_ns();
+        // the quotes handler has a dependency on the list of stocks
+        // having been returned
+        heatMapQuotesHandler_ns = doheatMapQuotesHandler_ns();
     }
     function deactivateTab() {
         areas = [];
