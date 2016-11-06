@@ -10,7 +10,7 @@
 (function() {
     var xpublic = {};
 
-    xpublic.requestStocks = function requestStocks() {
+    xpublic.requestStocksAndPopulateDropDown = function requestStocks() {
         document.hmcontext.stocksComms.requestStocks(
             populateStocksList, displayError
         );
