@@ -139,7 +139,10 @@
         engine = heatMapEngine_ns();
         // the quotes handler has a dependency on the list of stocks
         // having been returned
-        heatMapQuotesHandler_ns = doheatMapQuotesHandler_ns();
+        // heatMapQuotesHandler_ns = doheatMapQuotesHandler_ns();
+        document.hmcontext.quotesFetcher.requestQuotes(
+          'GOOG', document.hmcontext.makeHeatMap);
+        // document.hmcontext.quotesComms.start();
     }
     function deactivateTab() {
         areas = [];
