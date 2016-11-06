@@ -1,12 +1,12 @@
 var newLayout = (function getNewLayout() {
     var heatMapMembers = {};
-    heatMapEngine_ns(heatMapMembers);
+    document.hmcontext.newEngine(heatMapMembers);
     var newLayout = heatMapMembers.newLayout;
     return newLayout;
 })();
 var newRectangle = (function getNewRectangle() {
     var heatMapMembers = {};
-    heatMapEngine_ns(heatMapMembers);
+    document.hmcontext.newEngine(heatMapMembers);
     var newRectangle = heatMapMembers.newRectangle;
     return newRectangle;
 })();

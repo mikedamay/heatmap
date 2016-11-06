@@ -69,7 +69,7 @@
 
     function activateTab() {
         window.onresize = refreshHeatMap;
-        engine = heatMapEngine_ns();
+        engine = document.hmcontext.newEngine();
         // the quotes handler has a dependency on the list of stocks
         // having been returned
         document.hmcontext.quotesFetcher.requestQuotes(

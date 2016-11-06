@@ -10,7 +10,7 @@
     <div id=DataPanel style="position:absolute;left:20px;top:150px;">
     </div>
     <script>
-        var engine = heatMapEngine_ns();
+        var engine = document.hmcontext.newEngine();
         var lo = engine.newLayout();
         tiles = lo.layoutTiles(DataChoices["FibPowerSeries"] );
         var rr = engine.newRenderer({left:2,top:2,width:30,height:30});

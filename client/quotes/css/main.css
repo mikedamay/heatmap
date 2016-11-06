@@ -1,0 +1,48 @@
+body {
+    margin: 30px;
+}
+#LeftSide {
+    background-color: #dbe3ff;
+    height: 600px;
+}
+
+#RightSide {
+    /*background-color: #fff5d4;*/
+    background-color: hsl(60, 40%, 90%);
+    /*background-color: hsl(60, 60%, 80%);*/  /* good starting point */
+    height: 600px;
+    padding-top: 20px;
+}
+select {
+    margin: 5px;
+}
+.flash {
+    background: hsl(60, 80%, 90%);
+    animation: color-me-in 1s; /* other keywords like "infinite alternate" can be useful here */
+}
+.noflash {
+    background: hsl(60, 80%, 90%);
+}
+
+@keyframes color-me-in {
+    /* You could think of as "step 1" */
+    0% {
+        background: hsl(60, 40%, 90%);
+    }
+    /* You could think of as "step 2" */
+    100% {
+        background: hsl(60, 80%, 90%);
+    }
+}
+.ht:hover .tooltipx {
+    display:block;
+}
+
+.tooltipx {
+    display: none;
+    color: black;
+    margin-left: 28px; /* moves the tooltip to the right */
+    margin-top: 15px; /* moves it down */
+    position: absolute;
+    z-index: 1000;
+}

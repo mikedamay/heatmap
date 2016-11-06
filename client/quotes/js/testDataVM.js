@@ -109,8 +109,7 @@
         if (params.method === 'bruis') {
             squareNessCalculator = {newSquarenessCalculator: document.hmcontext.newWorstSquarenessCalculator};
         }
-        return heatMapEngine_ns(null, squareNessCalculator);
-        // return heatMapEngine_ns(null, {newSquarenessCalculator: document.hmcontext.newWorstSquarenessCalculator});
+        return document.hmcontext.newEngine(null, squareNessCalculator);
     }
     function refreshHeatMap() {
         drawHeatMap(engine, areas);

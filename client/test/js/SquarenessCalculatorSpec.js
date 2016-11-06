@@ -1,6 +1,6 @@
 var newSquarenessCalculator = (function getNewSquarenessCalculator() {
     var heatMapMembers = {};
-    heatMapEngine_ns(heatMapMembers);
+    document.hmcontext.newEngine(heatMapMembers);
     var newSquarenessCalculator = heatMapMembers.newSquarenessCalculator;
     return newSquarenessCalculator;
 })();

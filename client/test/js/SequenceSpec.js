@@ -1,6 +1,6 @@
 var newSequence = (function getNewSequence() {
     var heatMapMembers = {};
-    heatMapEngine_ns(heatMapMembers);
+    document.hmcontext.newEngine(heatMapMembers);
     var newSequence = heatMapMembers.newSequence;
     return newSequence;
 })();

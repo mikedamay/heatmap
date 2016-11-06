@@ -1,11 +1,11 @@
 var newTile = (function getNewTile() {
     var heatMapMembers = {};
-    heatMapEngine_ns(heatMapMembers);
+    document.hmcontext.newEngine(heatMapMembers);
     return heatMapMembers.newTile;
 })();
 var newRectangle = (function getNewRectangle() {
     var heatMapMembers = {};
-    heatMapEngine_ns(heatMapMembers);
+    document.hmcontext.newEngine(heatMapMembers);
     return heatMapMembers.newRectangle;
 })();
 

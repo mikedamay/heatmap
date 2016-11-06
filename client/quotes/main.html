@@ -1,5 +1,4 @@
 <html>
-<!-- TODO Add nocache stuff to headerrs -->
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,77 +7,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="../lib/bootstrap-3.3.7-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../lib/bootstrap-3.3.7-dist/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="css/main.css">
     <script src="../lib/jquery-1.12.4.js"></script>
     <script src="../lib/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
-    <style>
-        body {
-            margin: 30px;
-        }
-        #LeftSide {
-            background-color: #dbe3ff;
-            height: 600px;
-        }
-
-        #RightSide {
-            /*background-color: #fff5d4;*/
-            background-color: hsl(60, 40%, 90%);
-            /*background-color: hsl(60, 60%, 80%);*/  /* good starting point */
-            height: 600px;
-            padding-top: 20px;
-        }
-        select {
-            margin: 5px;
-        }
-        .flash {
-            background: hsl(60, 80%, 90%);
-            animation: color-me-in 1s; /* other keywords like "infinite alternate" can be useful here */
-        }
-        .noflash {
-            background: hsl(60, 80%, 90%);
-        }
-
-        @keyframes color-me-in {
-            /* You could think of as "step 1" */
-            0% {
-                background: hsl(60, 40%, 90%);
-            }
-            /* You could think of as "step 2" */
-            100% {
-                background: hsl(60, 80%, 90%);
-            }
-        }
-        .ht:hover .tooltipx {
-            display:block;
-        }
-
-        .tooltipx {
-            display: none;
-            color: black;
-            margin-left: 28px; /* moves the tooltip to the right */
-            margin-top: 15px; /* moves it down */
-            position: absolute;
-            z-index: 1000;
-        }
-    </style>
 </head>
 <body class="flash">
 
-<script>
-    var showAll;
-    document.doStuff = function() {alert('bob');};
-    document.refreshHeatMap = function() {alert('alice');};
-</script>
-<!--
-    I think that the following is the best approach to the caching problem when pages are loaded
-    from the file system.  I will tolerate the inefficiency for a quiet life.
-    http://stackoverflow.com/questions/118884/how-to-force-browser-to-reload-cached-css-js-files
--->
-<script>document.write('<script src="js/init.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
-<script>document.write('<script src="js/WorstSquareness.js?dev="' + Math.floor(Math.random() * 100) + '\><\/script>');</script>
-<script>document.write('<script src="../data/HeatMapTestData.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
-<script>document.write('<script src="../js/HeatMapEngine.js?dev="' + Math.floor(Math.random() * 100) + '\><\/script>');</script>
-<script>document.write('<script src="js/quotesComms.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
-<script>document.write('<script src="js/quotesFetcher.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
+    <!--
+        I think that the following is the best approach to the caching problem when pages are loaded
+        from the file system.  I will tolerate the inefficiency for a quiet life.
+        http://stackoverflow.com/questions/118884/how-to-force-browser-to-reload-cached-css-js-files
+    -->
+    <script>document.write('<script src="js/init.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
+    <script>document.write('<script src="js/WorstSquareness.js?dev="' + Math.floor(Math.random() * 100) + '\><\/script>');</script>
+    <script>document.write('<script src="../data/HeatMapTestData.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
+    <script>document.write('<script src="../js/HeatMapEngine.js?dev="' + Math.floor(Math.random() * 100) + '\><\/script>');</script>
+    <script>document.write('<script src="js/quotesComms.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
+    <script>document.write('<script src="js/quotesFetcher.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
 
     <div id=LeftSide class="col-sm-4">
         <div id=ControlPanel>
@@ -160,12 +105,10 @@
         </div>
     </div>
 
-
-
-<script>document.write('<script src="js/stocksFetcher.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
-<script>document.write('<script src="js/stocksComms.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
-<script>document.write('<script src="js/quotesHelper.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
-<script>document.write('<script src="js/quotesVM.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
-<script>document.write('<script src="js/testDataVM.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
+    <script>document.write('<script src="js/stocksFetcher.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
+    <script>document.write('<script src="js/stocksComms.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
+    <script>document.write('<script src="js/quotesHelper.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
+    <script>document.write('<script src="js/quotesVM.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
+    <script>document.write('<script src="js/testDataVM.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
 </body>
 </html>
