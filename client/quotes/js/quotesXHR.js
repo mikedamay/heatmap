@@ -7,7 +7,7 @@ requestQuote();
 
 function requestQuote() {
     try {
-        xhr.open("GET", "http://localhost/quotes/generate_quotes.php");
+        xhr.open("GET", "http://localhost/quotes/quotes.php");
         xhr.send();
 
     }

@@ -27,8 +27,8 @@
         handleData = handleDataCallback;
         handleError = handleErrorCallback;
         var script = document.createElement("script");
-        script.src = 'http://54.93.64.181//heatmap-server/list_stocks.php' + '?cahdebreaker='+ ii++
-          + '&jsonp_wrapper=' + encodeURIComponent('document.hmcontext.stocksComms.handleStocks');
+        script.src = 'http://localhost/heatmap-server/quotes.php' + '?cahdebreaker='+ ii++
+          + '&jsonp_wrapper=' + encodeURIComponent('document.hmcontext.stocksComms.handleStocks') + '&action=list_stocks';
         document.getElementsByTagName("head")[0].appendChild(script);
     };
 
