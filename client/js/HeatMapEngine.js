@@ -8,7 +8,8 @@
         var units = "px";
         var borderWidth = 2;
 
-        gatherMixins(this.length, arguments, xprivate);
+        // see exposeMembersForUnitTests re the this.length problem
+        gatherMixins(0 /*this.length*/, arguments, xprivate);
 
         /// main entry point
         /// usage eg.: document.hmcontext.newEngine.drawHeatMap( [{area:49}...], {left:20...});
@@ -27,6 +28,8 @@
         /**
          Layout
          ------
+         This is identified as "Naive".
+
          the main entry point is layoutTiles which takes an array of areas (numbers) and lays them out (i.e.
          sets top, left, height and width) within a square equal to the aggregate of all the areas.  The
          laid out areas are called 'Tiles' and the total area in which they are placed is defined as a 'Rectangle'.

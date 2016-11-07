@@ -15,7 +15,7 @@
 
         function requestQuote() {
             var script = document.createElement("script");
-            script.src = 'http://localhost/heatmap-server/quotes.php' + '?cahdebreaker=' + ii++ + '&jsonp_wrapper=document.hmcontext.quotesComms.handleQuotes&action=generate_quotes&ticker=' + stock;
+            script.src = '/heatmap-server/quotes.php' + '?cahdebreaker=' + ii++ + '&jsonp_wrapper=document.hmcontext.quotesComms.handleQuotes&action=generate_quotes&ticker=' + stock;
             document.getElementsByTagName("head")[0].appendChild(script);
             lastRequestTime = new Date();
         }

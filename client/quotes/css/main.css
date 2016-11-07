@@ -46,3 +46,6 @@ select {
     position: absolute;
     z-index: 1000;
 }
+.btn {
+    margin: 2px;
+}

@@ -13,43 +13,24 @@
 
 
     var lstDataSets = document.getElementById("DataSets");
-
-    for ( var dataSetName in DataChoices) {
-        opt = document.createElement("OPTION");
-        opt.text = dataSetName;
-        opt.value = dataSetName;
-        lstDataSets.options.add(opt);
-    }
-
-    // initialising later
-
+    populateDataSetsDropdown(lstDataSets);
 
     var li = document.getElementById(tabId);
-    li.onclick = function() {
-        if (document.hmcontext.activeTab !== tabId) {
-            activateTab();
-            document.hmcontext.deactivateTab();
-            document.hmcontext.deactivateTab = deactivateTab;
-            document.hmcontext.activeTab = tabId;
-        }
-    };
-    document.getElementById("ApplyLogScale").onclick = redoHeatMap;
-    document.getElementById("SortDirection").onchange = redoHeatMap;
-    document.getElementById("Method").onchange = redoHeatMap;
 
-    if (document.hmcontext === undefined) {
-        document.hmcontext = {};
-        document.hmcontext.deactivateTab = function() {};
-    }
+    li.onclick = changeTab;
+    document.getElementById("ApplyLogScale").onclick = redoHeatMap;
+    // apparently jquery disables vanilla ways of fixing up events
+    $("#SortDirection").change(redoHeatMap);
+    $("#Method").change(redoHeatMap);
+    $("#DataSets").change(redoHeatMap);
+    document.hmcontext.deactivateTab = function() {};
+
     document.hmcontext.activeTab = tabId;       // active tab by default
     document.hmcontext.deactivateTab = deactivateTab;
     activateTab();
-    var btn = document.getElementById("showAllBtn");
-    btn.onclick = showAll;
-    var btn2 = document.getElementById("showNextBtn");
-    btn2.onclick = showNext;
-    var btn2 = document.getElementById("clearBtn");
-    btn2.onclick = clear;
+    document.getElementById("showAllBtn").onclick = showAll;
+    document.getElementById("showNextBtn").onclick = showAll;
+    document.getElementById("clearBtn").onclick = clear;
     clear();
 
    function drawHeatMap(engine, areas) {
@@ -187,8 +168,6 @@
         var params = {};
          var chkApplyLogScale = document.getElementById("ApplyLogScale");
          params.applyLogScale = chkApplyLogScale.checked;
-         var chkReverseDisplay = document.getElementById("ReverseDisplay");
-         params.reverseDisplay = chkReverseDisplay.checked;
          var lstSortDirection = document.getElementById("SortDirection");
          params.sortDirection = lstSortDirection.value;
          var lstMethod = document.getElementById("Method");
@@ -197,5 +176,21 @@
     }
     function redoHeatMap() {
         showAll();
+    }
+    function populateDataSetsDropdown(lstDataSets) {
+        for ( var dataSetName in DataChoices) {
+            opt = document.createElement("OPTION");
+            opt.text = dataSetName;
+            opt.value = dataSetName;
+            lstDataSets.options.add(opt);
+        }
+    }
+    function changeTab() {
+        if (document.hmcontext.activeTab !== tabId) {
+            activateTab();
+            document.hmcontext.deactivateTab();
+            document.hmcontext.deactivateTab = deactivateTab;
+            document.hmcontext.activeTab = tabId;
+        }
     }
 })();
