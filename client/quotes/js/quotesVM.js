@@ -6,13 +6,16 @@
 (function() {
     var tabId = "quotesTab";
 
+    var helper = document.hmcontext.getQuotesHelper();
+
     document.hmcontext.stocksFetcher.requestStocksAndPopulateDropDown();
-    var getQuotesHelper = document.hmcontext.getQuotesHelper;
     var engine = dummyEngine();
     var areas = [];
     fixUpFindIndex(areas);
     var li = document.getElementById(tabId);
     li.onclick = changeTab;
+    $("#Method").change(refreshHeatMap);
+    $("#StockList").change(refreshHeatMap);
     document.hmcontext.deactivateTab = function() {};
     document.hmcontext.activeTab = tabId;       // active tab by default
                                                 // will be overwritten by any VM
@@ -60,7 +63,7 @@
         var div = document.getElementById("DataPanel");
         var rr = engine.newRenderer(
             {left: div.offsetLeft, top: div.offsetTop, width: div.offsetWidth, height: div.offsetHeight});
-        rr.renderLayout(tiles, getQuotesHelper().renderTileInterior);
+        rr.renderLayout(tiles, helper.renderTileInterior);
     }
 
     function refreshHeatMap() {

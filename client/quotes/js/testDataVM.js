@@ -5,83 +5,27 @@
 (function() {
     var tabId = "testDataTab";
     var counter;
+    var helper = document.hmcontext.getTestDataHelper();
 
     var dummyEngine = {newLayout: function() {return [];}, newRenderer: function() {}}
     var engine = dummyEngine;
     var areas;
     var tiles;
 
-
     var lstDataSets = document.getElementById("DataSets");
     populateDataSetsDropdown(lstDataSets);
-
-    var li = document.getElementById(tabId);
-
-    li.onclick = changeTab;
-    document.getElementById("ApplyLogScale").onclick = redoHeatMap;
-    // apparently jquery disables vanilla ways of fixing up events
-    $("#SortDirection").change(redoHeatMap);
-    $("#Method").change(redoHeatMap);
-    $("#DataSets").change(redoHeatMap);
-    document.hmcontext.deactivateTab = function() {};
-
     document.hmcontext.activeTab = tabId;       // active tab by default
-    document.hmcontext.deactivateTab = deactivateTab;
+    fixUpEvents();
     activateTab();
-    document.getElementById("showAllBtn").onclick = showAll;
-    document.getElementById("showNextBtn").onclick = showAll;
-    document.getElementById("clearBtn").onclick = clear;
     clear();
 
    function drawHeatMap(engine, areas) {
        var lo = engine.newLayout();
-       // lo = document.hmcontext.newBHWLayout();
        tiles = lo.layoutTiles(areas);
        var div = document.getElementById("DataPanel");
        var rr = engine.newRenderer(
          {left: div.offsetLeft, top: div.offsetTop, width: div.offsetWidth, height: div.offsetHeight});
-       var renderInnerTile = function(div) {
-           // this is pretty horrible (such a local operation taking dependenies on
-           // affecting the document as a whole, but...
-           // Even given the above compromise - calculatoing used height and widht
-           // is non-trivial.  The following 'M' based approach is sufficient
-           // for our purposes
-           function isSufficientArea() {
-               var body = document.getElementsByTagName("body")[0];
-               var divTest = document.createElement("div");
-               divTest.innerHTML = "M";
-               divTest.style.position = "absolute";
-               // divTest.style.visibility = "hidden";
-               divTest.style.display='flex';
-               divTest.style.alignItems='center';
-               divTest.style.justifyContent='center';
-               divTest.style.height = "auto";
-               divTest.style.width = "auto";
-               body.appendChild(divTest);
-               var res = div.clientHeight >= divTest.clientHeight*2 && div.clientWidth >= divTest.clientWidth * 8;
-               divTest.remove();
-               return res;
-           }
-           var text = 'rather longish text - ' + this.get_extraData().area;
-           if (isSufficientArea() ) {
-               div.innerHTML = text;
-               div.style.display='flex';
-               div.style.alignItems='center';
-               div.style.justifyContent='center';
-           }
-           else {
-                var span = document.createElement('span');
-                span.innerHTML = text;
-                span.className = "tooltipx";
-                span.style.backgroundColor = "white";
-                span.style.border = "black 1px solid";
-                div.className = "ht";
-                div.appendChild(span);
-           }
-       };
-       // the testTile is used to roughly calculate the typical area required by the text
-       // var testTile = {renderInnerTile: renderInnerTile, get_extraData: function() {return '1234';}};
-       rr.renderLayout(tiles, renderInnerTile);
+       rr.renderLayout(tiles, helper.renderTileInterior);
     }
 
     function makeHeatMapEngine() {
@@ -192,5 +136,21 @@
             document.hmcontext.deactivateTab = deactivateTab;
             document.hmcontext.activeTab = tabId;
         }
+    }
+    function fixUpEvents() {
+        var li = document.getElementById(tabId);
+        li.onclick = changeTab;
+        document.getElementById("ApplyLogScale").onclick = redoHeatMap;
+        // apparently jquery disables vanilla ways of fixing up events
+        $("#SortDirection").change(redoHeatMap);
+        $("#Method").change(redoHeatMap);
+        $("#DataSets").change(redoHeatMap);
+        //
+        document.hmcontext.deactivateTab = function() {};
+        document.hmcontext.deactivateTab = deactivateTab;
+        document.getElementById("showAllBtn").onclick = showAll;
+        document.getElementById("showNextBtn").onclick = showNext;
+        document.getElementById("clearBtn").onclick = clear;
+
     }
 })();
