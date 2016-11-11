@@ -2,7 +2,7 @@
  * Created by mikedamay on 06/11/2016.
  */
 
-// depends on init.js and stocksComms
+// depends on init.js and jsonpComms
 /**
  * this plays at the model level - it does level type things such as
  * formatting and validation before calling back the view-model
@@ -11,9 +11,9 @@
     var xpublic = {};
 
     xpublic.requestStocksAndPopulateDropDown = function requestStocks() {
-        document.hmcontext.stocksComms.requestStocks(
-            populateStocksList, displayError
-        );
+        document.hmcontext.newJsonpComms()
+          .request("http://54.93.170.161/heatmap-server/quotes.php?action=list_stocks"
+          , populateStocksList, displayError);
     };
     // TODO move to quotesVM
     function populateStocksList(stocks) {
