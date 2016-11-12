@@ -10,21 +10,34 @@
 (function() {
     var xpublic = {};
 
-    xpublic.requestStocksAndPopulateDropDown = function requestStocks() {
+    var whencomplete;
+    /**
+     *
+     * @param whencompleteArg - typically a function that kicks off the quotes acquisition
+     * routine.  It is called when the stocks have been returned by the server
+     */
+    xpublic.requestStocksAndPopulateDropDown = function requestStocks(whencompleteArg) {
         document.hmcontext.newJsonpComms()
-          .request("http://54.93.170.161/heatmap-server/quotes.php?action=list_stocks"
-          , populateStocksList, displayError);
+          .request("/heatmap-server/quotes.php?action=list_stocks", "list_stocks", populateStocksList, displayError);
+        whencomplete = whencompleteArg;
     };
     // TODO move to quotesVM
     function populateStocksList(stocks) {
         var stockList = document.getElementById("StockList");
-
+        if (stocks.length === 0) {
+            displayError("no stocks available on server");
+            return;
+        }
         for ( var stock in stocks) {
             var opt = document.createElement("OPTION");
             opt.text = stocks[stock];
             opt.value = stocks[stock];
             stockList.options.add(opt);
         }
+        if (stockList.options.selectedIndex === -1) {
+            stockList.value = stockList.options.item(0).value;
+        }
+        whencomplete(stockList.value);
     }
 
     function displayError(msg) {

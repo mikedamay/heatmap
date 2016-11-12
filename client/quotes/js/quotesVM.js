@@ -8,7 +8,9 @@
 
     var helper = document.hmcontext.getQuotesHelper();
 
-    document.hmcontext.stocksFetcher.requestStocksAndPopulateDropDown();
+    document.hmcontext.stocksFetcher.requestStocksAndPopulateDropDown(function(stock) {
+        document.hmcontext.quotesFetcher.requestQuotes(stock, makeHeatMap);
+    });
     var engine = dummyEngine();
     var areas = [];
     fixUpFindIndex(areas);

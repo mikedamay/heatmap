@@ -7,18 +7,26 @@
  * this plays at the model level - it does level type things such as
  * formatting and validation before calling back the view-model
  */
-(function() {
+(function quotesFetcher() {
     xpublic = {};
     var assert = document.hmcontext.assert;
     var handleData;
     var stock;
+    var jsonpComms;
 
     xpublic.requestQuotes = function requestQuotes(stockArg, dataHandlerCallback) {
         stock = stockArg;
-        document.hmcontext.quotesComms.start(stockArg, handleQuote, displayError)
+        // document.hmcontext.quotesComms.start(stockArg, handleQuote, displayError);
+        if (jsonpComms === undefined) {
+            jsonpComms = document.hmcontext.newJsonpComms();
+        }
+        jsonpComms.request("/heatmap-server/quotes.php?dummy=1", "generate_quotes&ticker=" + stock, handleQuote, displayError);
         handleData = dataHandlerCallback;
     };
 
+    xpublic.setStock = function setStock(stockArg) {
+        stock = stockArg;
+    };
     function displayError(msg) {
         document.getElementById("PayloadError").innerHTML = msg;
     }
@@ -34,10 +42,12 @@
         return true;
     }
     function handleQuote(payload) {
+        // requestQuotes(stock, handleQuote);
         if (!validate(payload)) {
             return;
         }
         handleData(payload);
+        jsonpComms.request("/heatmap-server/quotes.php?dummy=1", "generate_quotes&ticker=" + stock, handleQuote, displayError);
     }
     document.hmcontext.quotesFetcher = xpublic;
 })();
