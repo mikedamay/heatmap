@@ -24,6 +24,10 @@
         };
 
         xhr.onreadystatechange = function displayQuoteOrError() {
+            // TODO - we are unnecessarily processing some responses
+            // and possibly processing others multiple times.
+            // This does not seem to affect function but who
+            // knows what will happen in future
             if (xhr.status === 200 ) {
                 var payload = JSON.parse(xhr.responseText);
                 if ( payload.data !== undefined) {
