@@ -73,7 +73,7 @@ if ($_GET["action"] == "generate_quotes") {
         return $payload;
     };
 }
-else {
+else { // $_GET["action"] == "stock_list")
     $action = function($conn) {
         if (!($rs = mysql_query("select ticker from stocks order by ticker"))) {
             throw new Exception("stocks query failed. " . mysql_error($conn));

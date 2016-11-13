@@ -21,11 +21,11 @@
             catch(ex) {
                 alert("request failed:");
             }
-        }
+        };
 
         xhr.onreadystatechange = function displayQuoteOrError() {
             if (xhr.status === 200 ) {
-                var payload = xhr.responseText;
+                var payload = JSON.parse(xhr.responseText);
                 if ( payload.data !== undefined) {
                     handleData(payload.data);
                 }
@@ -35,7 +35,6 @@
                 else {
                     handleError("Invalid payload returned from server");
                 }
-                alert(xhr.responseText);
             }
             else {
                 handleError("status " + xhr.status);
