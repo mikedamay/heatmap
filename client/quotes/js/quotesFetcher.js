@@ -12,15 +12,14 @@
     var assert = document.hmcontext.assert;
     var handleData;
     var stock;
-    var jsonpComms;
+    var comms;
 
     xpublic.requestQuotes = function requestQuotes(stockArg, dataHandlerCallback) {
         stock = stockArg;
-        // document.hmcontext.quotesComms.start(stockArg, handleQuote, displayError);
-        if (jsonpComms === undefined) {
-            jsonpComms = document.hmcontext.newJsonpComms();
+        if (comms === undefined) {
+            comms = document.hmcontext.newComms();
         }
-        jsonpComms.request("/heatmap-server/quotes.php?dummy=1", "generate_quotes&ticker=" + stock, handleQuote, displayError);
+        comms.request("/heatmap-server/quotes.php?action=generate_quotes&ticker=" + stock, handleQuote, displayError);
         handleData = dataHandlerCallback;
     };
 
@@ -42,12 +41,11 @@
         return true;
     }
     function handleQuote(payload) {
-        // requestQuotes(stock, handleQuote);
         if (!validate(payload)) {
             return;
         }
         handleData(payload);
-        jsonpComms.request("/heatmap-server/quotes.php?dummy=1", "generate_quotes&ticker=" + stock, handleQuote, displayError);
+        comms.request("/heatmap-server/quotes.php?action=generate_quotes&ticker=" + stock, handleQuote, displayError);
     }
     document.hmcontext.quotesFetcher = xpublic;
 })();

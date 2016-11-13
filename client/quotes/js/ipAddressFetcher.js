@@ -7,7 +7,7 @@
         var xreturn = {};
         xreturn.request = function request() {
             document.hmcontext.newJsonpComms("ipaddress")
-                .request("http://mikedamay.co.uk/ipaddress.json?dummy=1", "no_action", handleResponse, displayError);
+                .request("http://mikedamay.co.uk/ipaddress.json?dummy=1", handleResponse, displayError);
 
         };
         // payload = ip address, e.g. "54.93.106.105"

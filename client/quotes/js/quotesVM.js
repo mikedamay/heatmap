@@ -8,6 +8,14 @@
 
     var helper = document.hmcontext.getQuotesHelper();
 
+    if (document.location.href.search("file:") !== -1
+      || document.location.href.search("63342") !== -1) {
+            // 63342 - debug port for intellij javascript
+        document.hmcontext.newComms = document.hmcontext.newJsonpComms;
+    }
+    else {
+        document.hmcontext.newComms = document.hmcontext.newXhrComms;
+    }
     document.hmcontext.stocksFetcher.requestStocksAndPopulateDropDown(function(stock) {
         document.hmcontext.quotesFetcher.requestQuotes(stock, makeHeatMap);
     });

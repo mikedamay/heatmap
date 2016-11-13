@@ -17,8 +17,8 @@
      * routine.  It is called when the stocks have been returned by the server
      */
     xpublic.requestStocksAndPopulateDropDown = function requestStocks(whencompleteArg) {
-        document.hmcontext.newJsonpComms()
-          .request("/heatmap-server/quotes.php?action=list_stocks", "list_stocks", populateStocksList, displayError);
+        document.hmcontext.newComms()
+          .request("/heatmap-server/quotes.php?action=list_stocks", populateStocksList, displayError);
         whencomplete = whencompleteArg;
     };
     // TODO move to quotesVM

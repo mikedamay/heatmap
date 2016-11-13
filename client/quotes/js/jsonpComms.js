@@ -49,13 +49,13 @@
          *   ['AAPL', 'IBM']
          * @param handleErrorCallback fn(error-payload) where payload e.g. "something went wrong"
          */
-        xreturn.request = xpublic.request = function request(endpoint, action, handleDataCallback, handleErrorCallback) {
+        xreturn.request = xpublic.request = function request(endpoint, handleDataCallback, handleErrorCallback) {
             if (ipaddress === "not set") {
                 ipaddress = "";     // we are about to recurse into jsonpComms.
                 document.hmcontext.newIpAddressFetcher(function(ipaddress) {
                     var jsonpComms = document.hmcontext.newJsonpComms();
                     jsonpComms.setIpAddress("http://" + ipaddress);
-                    jsonpComms.request(endpoint, action, handleDataCallback, handleErrorCallback);
+                    jsonpComms.request(endpoint, handleDataCallback, handleErrorCallback);
                 }).request();
                 return;
             }
@@ -64,9 +64,8 @@
             handleError = handleErrorCallback;
             var script = document.createElement("script");
             script.src = ipaddress + endpoint
-                + '&cahdebreaker=' + + Math.floor(Math.random() * 100)
-                + '&jsonp_wrapper=' + encodeURIComponent('document.hmcontext.jsonpComms.' + tag + '.handleJsonpResponse')
-                + '&action=' + action;
+                + '&cahdebreaker=' + + Math.floor(Math.random() * 100)  // TODO - not sufficiently guaranteed to be different
+                + '&jsonp_wrapper=' + encodeURIComponent('document.hmcontext.jsonpComms.' + tag + '.handleJsonpResponse');
             document.getElementsByTagName("head")[0].appendChild(script);
             lastRequestTime = new Date();
             handleTimeout();
@@ -101,7 +100,7 @@
             else {
                 handleError("Invalid payload returned from server");
             }
-            // delete document.hmcontext.jsonpComms[tag];
+            // TODO remove script tag to avoid memory leak
         };
         if (document.hmcontext.jsonpComms == undefined) {
             document.hmcontext.jsonpComms = {};

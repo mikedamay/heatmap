@@ -1,0 +1,47 @@
+// mike may 28-Oct-2016
+
+
+(function XhrComms(){
+
+    document.hmcontext.newXhrComms = function newXhrComms() {
+        var xpublic = {};
+        var xreturn = {};
+        var xhr = new XMLHttpRequest();
+        var handleData;
+        var handleError;
+
+        xpublic.request = xreturn.request = function request(endpoint, handleDataCallback, handleErrorCallback) {
+            handleData = handleDataCallback;
+            handleError = handleErrorCallback;
+            try {
+                xhr.open("GET", endpoint);
+                xhr.send();
+
+            }
+            catch(ex) {
+                alert("request failed:");
+            }
+        }
+
+        xhr.onreadystatechange = function displayQuoteOrError() {
+            if (xhr.status === 200 ) {
+                var payload = xhr.responseText;
+                if ( payload.data !== undefined) {
+                    handleData(payload.data);
+                }
+                else if (payload.err !== undefined) {
+                    handleError(payload.err);
+                }
+                else {
+                    handleError("Invalid payload returned from server");
+                }
+                alert(xhr.responseText);
+            }
+            else {
+                handleError("status " + xhr.status);
+            }
+        };
+        document.hmcontext.xhrComms = xpublic;
+        return xreturn;
+    };
+})();
