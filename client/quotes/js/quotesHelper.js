@@ -34,7 +34,7 @@
             }
             // TODO: I cannot make this display multi-line - resize will cause it to display multi-line but not
             // the initial display.
-            var text = this.get_extraData().area + ' @'  + this.get_extraData().range;
+            var text = this.get_extraData().volume + ' @'  + this.get_extraData().range;
             div.className = "";
             if (isSufficientArea() ) {
                 div.innerHTML =  text;

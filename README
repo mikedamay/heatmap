@@ -4,7 +4,7 @@ O/S
 * 1. Add text to tiles.   5h
 * 2. Add class to tiles.  Centre text, wrap text, light on dark, measure space available. scale font 5h
 * 3. test on frankfurt-fl1    2h
-4. Add xhr when serving up from frankfurt-fl1 1h
+* 4. Add xhr when serving up from frankfurt-fl1 1h
 * 5. Add flash to latest tile drawn.      2h
 * 6. Image map - data tips        4h
 * 7. cosmetic on grid.        4h
@@ -20,13 +20,13 @@ x 16. Nested heatmaps.            5h
 * 17. Add stock to db queries.    1h
 * 18. Additional stock data.      1h
 * 19. Stock selection.            2h
-20. Licence                     1h
+* 20. Licence                     1h
 x 21. PHP Prepared statement      2h
                                 54h
 x 22. Change px to rem
-23. Look at applying closure to php
+* 23. Look at applying closure to php
 * 24. Add timeout
 * 25. Bruis Huizing & van Wijk
-26. Ensure switching stocks works correctly
-27. jslint / eslint
-28. Change Icon
+* 26. Ensure switching stocks works correctly
+x 27. jslint / eslint
+* 28. Change Icon

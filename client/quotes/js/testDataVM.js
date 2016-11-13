@@ -7,21 +7,19 @@
     var counter;
     var helper = document.hmcontext.getTestDataHelper();
 
-    var dummyEngine = {newLayout: function() {return [];}, newRenderer: function() {}}
-    var engine = dummyEngine;
+    var engine = dummyEngine();
     var areas;
-    var tiles;
 
     var lstDataSets = document.getElementById("DataSets");
     populateDataSetsDropdown(lstDataSets);
     document.hmcontext.activeTab = tabId;       // active tab by default
-    fixUpEvents();
     activateTab();
     clear();
+    document.hmcontext.deactivateTab = deactivateTestDataTab;
 
    function drawHeatMap(engine, areas) {
        var lo = engine.newLayout();
-       tiles = lo.layoutTiles(areas);
+       var tiles = lo.layoutTiles(areas);
        var div = document.getElementById("DataPanel");
        var rr = engine.newRenderer(
          {left: div.offsetLeft, top: div.offsetTop, width: div.offsetWidth, height: div.offsetHeight});
@@ -70,20 +68,10 @@
         }
     };
     function activateTab() {
+        fixUpEvents();
         document.getElementById("DataPanel").innerHTML = "";
         engine = makeHeatMapEngine();
         window.onresize = refreshHeatMap;
-    }
-    function deactivateTab() {
-        clear();
-        engine = dummyEngine;
-    }
-    function clear() {
-        counter = 1;
-        document.getElementById("DataPanel").innerHTML = "";
-        areas = [];
-        tiles = [];
-
     }
     // apply log scaling and sorting as per user
     function transformValues(vals) {
@@ -129,14 +117,6 @@
             lstDataSets.options.add(opt);
         }
     }
-    function changeTab() {
-        if (document.hmcontext.activeTab !== tabId) {
-            activateTab();
-            document.hmcontext.deactivateTab();
-            document.hmcontext.deactivateTab = deactivateTab;
-            document.hmcontext.activeTab = tabId;
-        }
-    }
     function fixUpEvents() {
         var li = document.getElementById(tabId);
         li.onclick = changeTab;
@@ -146,11 +126,40 @@
         $("#Method").change(redoHeatMap);
         $("#DataSets").change(redoHeatMap);
         //
-        document.hmcontext.deactivateTab = function() {};
-        document.hmcontext.deactivateTab = deactivateTab;
+        // document.hmcontext.deactivateTab = function() {};
+        // document.hmcontext.deactivateTab = deactivateTab;
         document.getElementById("showAllBtn").onclick = showAll;
         document.getElementById("showNextBtn").onclick = showNext;
         document.getElementById("clearBtn").onclick = clear;
 
     }
+    function deactivateTestDataTab() {
+        clear();
+        engine = dummyEngine;
+    }
+    function clear() {
+        counter = 1;
+        document.getElementById("DataPanel").innerHTML = "";
+        areas = [];
+    }
+    function dummyEngine() {
+        return {
+            newLayout: function() {
+                return {layoutTiles: function() {return [];}}
+            }
+            , newRenderer: function() {
+                return {renderLayout: function() {}}
+            }
+        }
+    }
+
+    function changeTab() {
+        if (document.hmcontext.activeTab !== tabId) {
+            activateTab();
+            document.hmcontext.deactivateTab();
+            document.hmcontext.deactivateTab = deactivateTestDataTab;
+            document.hmcontext.activeTab = tabId;
+        }
+    }
+
 })();

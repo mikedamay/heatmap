@@ -16,7 +16,7 @@
     else {
         document.hmcontext.newComms = document.hmcontext.newXhrComms;
     }
-    document.hmcontext.stocksFetcher.requestStocksAndPopulateDropDown(function(stock) {
+     document.hmcontext.stocksFetcher.requestStocksAndPopulateDropDown(function(stock) {
         document.hmcontext.quotesFetcher.requestQuotes(stock, makeHeatMap);
     });
     var engine = dummyEngine();
@@ -24,15 +24,14 @@
     fixUpFindIndex(areas);
     var li = document.getElementById(tabId);
     li.onclick = changeTab;
-    $("#Method").change(refreshHeatMap);
-    $("#StockList").change(refreshHeatMap);
-    document.hmcontext.deactivateTab = function() {};
+    $("#StockList").change(restartHeatMap);
+    // document.hmcontext.deactivateTab = function() {};
     document.hmcontext.activeTab = tabId;       // active tab by default
                                                 // will be overwritten by any VM
 
     function makeHeatMap(quote) {
         areas = updateAreas(areas, quote);
-        drawHeatMap(engine, areas);
+        drawHeatMap(engine, transformValues(areas));
     }
 
     function getSelectedStock() {
@@ -75,22 +74,61 @@
             {left: div.offsetLeft, top: div.offsetTop, width: div.offsetWidth, height: div.offsetHeight});
         rr.renderLayout(tiles, helper.renderTileInterior);
     }
-
+    function restartHeatMap() {
+        areas = [];
+        var stock = getSelectedStock();
+        document.hmcontext.quotesFetcher.requestQuotes(stock, makeHeatMap);
+        redoHeatMap();
+    }
+    function redoHeatMap() {
+        engine = makeHeatMapEngine();
+        refreshHeatMap();
+    }
     function refreshHeatMap() {
         drawHeatMap(engine, areas);
+    }
+    function makeHeatMapEngine() {
+        var params = gatherParamsFromPage();
+        var squareNessCalculator = {};
+        if (params.method === 'bruis') {
+            squareNessCalculator = {newSquarenessCalculator: document.hmcontext.newWorstSquarenessCalculator};
+        }
+        return document.hmcontext.newEngine(null, squareNessCalculator);
+    }
+    function gatherParamsFromPage() {
+        var params = {};
+        var chkApplyLogScale = document.getElementById("ApplyLogScale");
+        params.applyLogScale = chkApplyLogScale.checked;
+        var lstMethod = document.getElementById("Method");
+        params.method = lstMethod.value;
+        return params;
     }
 
     function activateTab() {
         window.onresize = refreshHeatMap;
-        engine = document.hmcontext.newEngine();
+        engine = makeHeatMapEngine();
+        // engine = document.hmcontext.newEngine();
+        $("#Method").change(redoHeatMap);
+        document.getElementById("ApplyLogScale").onclick = redoHeatMap;
         // the quotes handler has a dependency on the list of stocks
         // having been returned
-        document.hmcontext.quotesFetcher.requestQuotes(
-          getSelectedStock(), makeHeatMap);
+        // document.hmcontext.quotesFetcher.requestQuotes(
+        //   getSelectedStock(), makeHeatMap);
     }
-    function deactivateTab() {
+    function fixUpFindIndex(areas)  {
+        if (Array.prototype.findIndex === undefined) {
+            areas.findIndex = function findIndex(fn) {
+                for (var ii = 0; ii < this.length; ii++ ) {
+                    if (fn(this[ii], ii, this)) {
+                        return ii;
+                    }
+                }
+                return -1;
+            }
+        }
+    }
+    function deactivateQuotesTab() {
         areas = [];
-        tiles = [];
         engine = dummyEngine();
     }
     function dummyEngine() {
@@ -107,22 +145,26 @@
         if (document.hmcontext.activeTab !== tabId) {
             document.hmcontext.deactivateTab(); // execute the previous tab's deactivate
             activateTab();
-            document.hmcontext.deactivateTab = deactivateTab;
+            document.hmcontext.deactivateTab = deactivateQuotesTab;
             document.hmcontext.activeTab = tabId;
         }
     }
-    function fixUpFindIndex(areas)  {
-        if (Array.prototype.findIndex === undefined) {
-            areas.findIndex = function findIndex(fn) {
-                for (var ii = 0; ii < this.length; ii++ ) {
-                    if (fn(this[ii], ii, this)) {
-                        return ii;
-                    }
-                }
-                return -1;
-            }
+    // apply log scaling and sorting as per user
+    function transformValues(vals) {
+        if (!vals) {
+            return vals;
         }
-    }
-})();
+        var areas = [];
+        var params = gatherParamsFromPage();
+        var transform = params.applyLogScale ? function (v) {
+            return {area: Math.log(v.area * 10), volume: v.area, range: v.range};
+        } : function (v) {
+            return {area: v.area, volume: v.area, range: v.range};
+        };
+        for (var ii = 0; ii < vals.length; ii++ ) {
+            areas.push(transform(vals[ii]));
+        }
+        return areas;
+    }})();
 
 
